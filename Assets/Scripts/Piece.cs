@@ -22,4 +22,33 @@ public class Piece : MonoBehaviour
             cells[i] = (Vector3Int)data.cells[i];
         }
     }
+    private void Update()
+    {
+        board.Clear(this);
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Move(Vector2Int.left);
+        }
+        else if(Input.GetKeyDown(KeyCode.D))
+        {
+            Move(Vector2Int.right);
+        }
+
+        board.Set(this);
+    }
+    private bool Move(Vector2Int translation)
+    {
+        Vector3Int newPosition = position;
+        newPosition.x += translation.x;
+        newPosition.y += translation.y;
+
+        if (board.IsValidPosition(this, newPosition))
+        {
+            position = newPosition;
+            return true;
+        }
+
+        return false;
+    }
 }
