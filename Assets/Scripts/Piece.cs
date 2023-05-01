@@ -34,8 +34,26 @@ public class Piece : MonoBehaviour
         {
             Move(Vector2Int.right);
         }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            // Soft Drop: Move Down One Row
+            Move(Vector2Int.down);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            HardDrop();
+        }
 
         board.Set(this);
+    }
+
+    public void HardDrop()
+    {
+        while(Move(Vector2Int.down))
+        {
+            continue;
+        }
     }
     private bool Move(Vector2Int translation)
     {
