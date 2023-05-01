@@ -14,11 +14,8 @@ public class Piece : MonoBehaviour
         this.position = position;
         this.data = data;
 
-        if (this.cells == null)
-        {
-            // Initialize Cell Array If Not Initialized
-            cells = new Vector3Int[data.cells.Length];
-        }
+
+        cells = new Vector3Int[data.cells.Length];
 
         for (int i = 0; i < data.cells.Length; i++)
         {

@@ -28,6 +28,7 @@ public class Board : MonoBehaviour
     public void SpawnPiece()
     {
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
+        Debug.Log(data);
         activePiece.Initialize(this, spawnPosition , data);
         Set(activePiece);
     }
