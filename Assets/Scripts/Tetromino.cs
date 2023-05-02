@@ -19,9 +19,10 @@ public struct TetrominoData
     public Tetromino tetromino;
     public Tile tile;
     public Vector2Int[] cells;
-
+    public Vector2Int[,] wallKicks;
     public void Initalize()
     {
-        this.cells = Data.Cells[this.tetromino];
+        this.cells = Data.Cells[tetromino];
+        wallKicks = Data.WallKicks[tetromino];
     }
 }
