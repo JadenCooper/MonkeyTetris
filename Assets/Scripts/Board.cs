@@ -40,9 +40,19 @@ public class Board : MonoBehaviour
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         Debug.Log(data);
         activePiece.Initialize(this, spawnPosition , data);
+
+        if (!IsValidPosition(activePiece, spawnPosition))
+        {
+            GameOver();
+        }
+
         Set(activePiece);
     }
-
+    private void GameOver()
+    {
+        tilemap.ClearAllTiles();
+        Debug.Log("Game Over");
+    }
     public void Set(Piece piece)
     {
         for (int i = 0; i < piece.cells.Length; i++)
