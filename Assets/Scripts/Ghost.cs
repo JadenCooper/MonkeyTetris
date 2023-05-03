@@ -6,18 +6,19 @@ using UnityEngine.Tilemaps;
 public class Ghost : MonoBehaviour
 {
     public Tile tile;
-    public Board board;
+    public Board mainBoard;
     public Piece trackingPiece;
 
     public Tilemap tilemap;
-    public Vector3Int position;
     public Vector3Int[] cells;
+    public Vector3Int position;
 
     private void Awake()
     {
-        tilemap= GetComponentInChildren<Tilemap>();
+        tilemap = GetComponentInChildren<Tilemap>();
         cells = new Vector3Int[4];
     }
+
     private void LateUpdate()
     {
         Clear();
@@ -25,6 +26,7 @@ public class Ghost : MonoBehaviour
         Drop();
         Set();
     }
+
     private void Clear()
     {
         for (int i = 0; i < cells.Length; i++)
@@ -33,6 +35,7 @@ public class Ghost : MonoBehaviour
             tilemap.SetTile(tilePosition, null);
         }
     }
+
     private void Copy()
     {
         for (int i = 0; i < cells.Length; i++)
@@ -40,21 +43,23 @@ public class Ghost : MonoBehaviour
             cells[i] = trackingPiece.cells[i];
         }
     }
+
     private void Drop()
     {
-        Vector3Int Position = trackingPiece.position;
+        Vector3Int position = trackingPiece.position;
 
         int current = position.y;
-        int bottem = - board.boardSize.y / 2 - 1;
+        int bottom = -mainBoard.boardSize.y / 2 - 1;
 
-        board.Clear(trackingPiece);
+        mainBoard.Clear(trackingPiece);
 
-        for (int row = current; row >= bottem;  row--)
+        for (int row = current; row >= bottom; row--)
         {
             position.y = row;
-            if (board.IsValidPosition(trackingPiece, position))
+
+            if (mainBoard.IsValidPosition(trackingPiece, position))
             {
-                position = Position;
+                this.position = position;
             }
             else
             {
@@ -62,8 +67,9 @@ public class Ghost : MonoBehaviour
             }
         }
 
-        board.Set(trackingPiece);
+        mainBoard.Set(trackingPiece);
     }
+
     private void Set()
     {
         for (int i = 0; i < cells.Length; i++)
@@ -72,4 +78,5 @@ public class Ghost : MonoBehaviour
             tilemap.SetTile(tilePosition, tile);
         }
     }
+
 }
