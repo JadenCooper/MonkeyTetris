@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class SettingScript : MonoBehaviour
 {
 
+    public GameObject settingsPanel;
     public AudioMixer audioMixer;
     // Start is called before the first frame update
     public void SetFullScreen(bool isFullScreen)
@@ -18,6 +19,11 @@ public class SettingScript : MonoBehaviour
     public void SetVolume(float volume)
     {
         audioMixer.SetFloat("volume", volume);
+    }
+
+    public void OpenSettings()
+    {
+        settingsPanel.SetActive(true);
     }
     
 }

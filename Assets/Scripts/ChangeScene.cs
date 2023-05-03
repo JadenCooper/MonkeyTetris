@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
+    public GameObject settingsPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +18,11 @@ public class ChangeScene : MonoBehaviour
         
     }
 
-    public void GoToSettings(){
-        SceneManager.LoadScene("Settings");
+    public void OpenSettings()
+    {
+        settingsPanel.SetActive(true);
     }
      public void GoToMenu(){
-        SceneManager.LoadScene("Menu");
+        settingsPanel.SetActive(false);
     }
 }
