@@ -5,24 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class ChangeScene : MonoBehaviour
 {
-    public GameObject settingsPanel;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    
+    public void GoToGame(){
+        SceneManager.LoadScene("GameScene");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void OpenSettings()
-    {
-        settingsPanel.SetActive(true);
-    }
-     public void GoToMenu(){
-        settingsPanel.SetActive(false);
+    public void GoToMenu(){
+        SceneManager.LoadScene("Menu");
     }
 }
