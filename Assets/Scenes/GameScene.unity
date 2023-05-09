@@ -182,11 +182,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 11400000, guid: b47b141b5eddaf04185e2ff159ff79dc, type: 2}
-  board: {fileID: 222426854}
+  mainBoard: {fileID: 222426854}
   trackingPiece: {fileID: 222426855}
   tilemap: {fileID: 0}
-  position: {x: 0, y: 0, z: 0}
   cells: []
+  position: {x: 0, y: 0, z: 0}
 --- !u!1 &119056482
 GameObject:
   m_ObjectHideFlags: 0
