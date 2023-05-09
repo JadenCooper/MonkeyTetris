@@ -13,6 +13,9 @@ public class Piece : MonoBehaviour
     public float stepDelay = 1f;
     public float lockDelay = 0.5f;
 
+    public bool atBottom = false;
+    public bool countBottom = false;
+
     private float stepTime;
     private float lockTime;
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
@@ -63,6 +66,7 @@ public class Piece : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            // StartCoroutine(HardDrop());
             HardDrop();
         }
 
@@ -94,11 +98,19 @@ public class Piece : MonoBehaviour
 
     public void HardDrop()
     {
-        while(Move(Vector2Int.down))
-        {
-            continue;
+        int distance = 0;
+        //find out how far to bottom
+        while(StepsToBottom(Vector2Int.down))
+        {   
+            distance++;            
+            Debug.Log("Hard Drop");
         }
-        
+        //move down that many times waiting for .25 seconds between each move
+        // for (int i = 0; i < distance; i++)
+        // {
+        //     Move(Vector2Int.down);
+        //     // yield return new WaitForSeconds(0.25f);
+        // }
         Lock();
     }
     private bool Move(Vector2Int translation)
@@ -114,6 +126,23 @@ public class Piece : MonoBehaviour
             return true;
         }
 
+
+        return false;
+    }
+
+    //calculate how many steps to bottom
+    private bool StepsToBottom(Vector2Int translation)
+    {
+        Vector3Int countPosition = position;
+        Vector3Int newPosition = position;
+        newPosition.x += translation.x;
+        newPosition.y += translation.y;
+
+        if (board.IsValidPosition(this, newPosition))
+        {
+            countPosition = newPosition;
+            return true;
+        }
         return false;
     }
 
