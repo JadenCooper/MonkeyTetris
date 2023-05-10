@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 360855914}
   - component: {fileID: 360855915}
   m_Layer: 0
-  m_Name: Piece (1)
+  m_Name: Player Two
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,6 +263,7 @@ MonoBehaviour:
     cells: []
   position: {x: 0, y: 0, z: 0}
   cells: []
+  pieceControls: {fileID: 0}
   rotationIndex: 0
   stepDelay: 1
   lockDelay: 0.5
@@ -288,7 +289,7 @@ GameObject:
   - component: {fileID: 1110474102}
   - component: {fileID: 1110474103}
   m_Layer: 0
-  m_Name: Piece
+  m_Name: Player One
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -328,6 +329,7 @@ MonoBehaviour:
     cells: []
   position: {x: 0, y: 0, z: 0}
   cells: []
+  pieceControls: {fileID: 0}
   rotationIndex: 0
   stepDelay: 1
   lockDelay: 0.5
@@ -354,6 +356,18 @@ PrefabInstance:
       propertyPath: PieceList.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: ControlDataList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: ControlDataList.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b13641ae11a40b47ab82ab71b72d140, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: ControlDataList.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 61b50d7d13ebc4d43b14858ae638dc70, type: 2}
     - target: {fileID: 1169076177740018797, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: m_Name
       value: Game Board

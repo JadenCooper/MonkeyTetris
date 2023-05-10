@@ -8,6 +8,7 @@ public class Board : MonoBehaviour
     public Tilemap tilemap;
     public Piece activePiece;
     public List<Piece> PieceList = new List<Piece>();
+    public List<PlayerControls> ControlDataList = new List<PlayerControls>();
     public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
     public Vector3Int spawnPosition;
@@ -26,7 +27,12 @@ public class Board : MonoBehaviour
         tilemap = GetComponentInChildren<Tilemap>();
         PieceList.AddRange(GetComponentsInChildren<Piece>());
         activePiece = PieceList[0];
+        for (int i = 0; i < PieceList.Count; i++)
+        {
+            PieceList[i].pieceControls = ControlDataList[i];
+        }
         ghost.trackingPiece = activePiece;
+
         for (int i = 0; i < tetrominos.Length; i++)
         {
             tetrominos[i].Initalize();
