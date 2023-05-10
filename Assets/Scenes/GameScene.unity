@@ -182,11 +182,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 11400000, guid: b47b141b5eddaf04185e2ff159ff79dc, type: 2}
-  board: {fileID: 222426854}
+  mainBoard: {fileID: 0}
   trackingPiece: {fileID: 222426855}
   tilemap: {fileID: 0}
-  position: {x: 0, y: 0, z: 0}
   cells: []
+  position: {x: 0, y: 0, z: 0}
 --- !u!1 &119056482
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,13 +335,19 @@ MonoBehaviour:
   tetrominos:
   - tetromino: 0
     tile: {fileID: 11400000, guid: 3f4427b08971eb34881cfc4c257e864d, type: 2}
-    cells: []
+    cells:
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
+    - {x: 0, y: 0}
   - tetromino: 1
     tile: {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
     cells: []
   - tetromino: 2
     tile: {fileID: 11400000, guid: 21d3f58f6a442da41946fbbaac3adee3, type: 2}
-    cells: []
+    cells:
+    - {x: 0, y: 1}
   - tetromino: 3
     tile: {fileID: 11400000, guid: 7def146373aae9d498b53958031cb161, type: 2}
     cells: []
