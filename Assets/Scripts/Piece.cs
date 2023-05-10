@@ -180,7 +180,7 @@ public class Piece : MonoBehaviour
 
         return Wrap(wallKickIndex, 0, data.wallKicks.GetLength(0));
     }
-    private int Wrap(int input, int min, int max)
+    public int Wrap(int input, int min, int max)
     {
         if (input < min)
         {

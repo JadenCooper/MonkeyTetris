@@ -7,10 +7,12 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap;
     public Piece activePiece;
+    public List<Piece> PieceList = new List<Piece>();
+    public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
-
+    public Ghost ghost;
     public RectInt Bounds
     {
         get
@@ -22,8 +24,9 @@ public class Board : MonoBehaviour
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
-        activePiece = GetComponentInChildren<Piece>();
-
+        PieceList.AddRange(GetComponentsInChildren<Piece>());
+        activePiece = PieceList[0];
+        ghost.trackingPiece = activePiece;
         for (int i = 0; i < tetrominos.Length; i++)
         {
             tetrominos[i].Initalize();
@@ -39,7 +42,15 @@ public class Board : MonoBehaviour
     {
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         Debug.Log(data);
+
+        int temp = PieceIndex;
+        PieceIndex++;
+        PieceIndex = activePiece.Wrap(PieceIndex, 0, PieceList.Count);
+        PieceList[temp].gameObject.SetActive(false);
+        PieceList[PieceIndex].gameObject.SetActive(true);
+        activePiece = PieceList[PieceIndex];
         activePiece.Initialize(this, spawnPosition , data);
+        ghost.trackingPiece = activePiece;
 
         if (!IsValidPosition(activePiece, spawnPosition))
         {
