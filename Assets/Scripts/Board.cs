@@ -13,6 +13,7 @@ public class Board : MonoBehaviour
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Ghost ghost;
+    public GameManager gameManager;
     public RectInt Bounds
     {
         get
@@ -46,9 +47,9 @@ public class Board : MonoBehaviour
     public void SpawnPiece()
     {
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
-
         PieceIndex++;
         PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
+        gameManager.PlayerChange(PieceIndex + 1);
         activePiece.pieceControls = ControlDataList[PieceIndex];
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
@@ -56,6 +57,8 @@ public class Board : MonoBehaviour
         if (!IsValidPosition(activePiece, spawnPosition))
         {
             GameOver();
+            SpawnPiece(); // Makes Winner Start The Next Round
+            return;
         }
 
         Set(activePiece);
@@ -63,7 +66,8 @@ public class Board : MonoBehaviour
     private void GameOver()
     {
         tilemap.ClearAllTiles();
-        Debug.Log("Game Over");
+        gameManager.GameOver(PieceIndex + 1);
+        Debug.Log("Game Over Player" + (PieceIndex + 1) + " Lost");
     }
     public void Set(Piece piece)
     {
