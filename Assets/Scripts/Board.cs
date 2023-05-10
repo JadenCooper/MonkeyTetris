@@ -25,12 +25,20 @@ public class Board : MonoBehaviour
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
-        PieceList.AddRange(GetComponentsInChildren<Piece>());
+
+        PieceList.AddRange(GetComponentsInChildren<Piece>()); // Get All Pieces And Assign Them To The List
         activePiece = PieceList[0];
         for (int i = 0; i < PieceList.Count; i++)
         {
+            // Assign The Player Controls To The Pieces
             PieceList[i].pieceControls = ControlDataList[i];
+            if (i != 0)
+            {
+                // Makes Every Piece Besides The First Piece To NonActive
+                PieceList[i].gameObject.SetActive(false);
+            }
         }
+
         ghost.trackingPiece = activePiece;
 
         for (int i = 0; i < tetrominos.Length; i++)
@@ -41,19 +49,27 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        SpawnPiece();
+        TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
+
+        activePiece.Initialize(this, spawnPosition, data);
+
+        if (!IsValidPosition(activePiece, spawnPosition))
+        {
+            GameOver();
+        }
+
+        Set(activePiece);
     }
 
     public void SpawnPiece()
     {
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
-        Debug.Log(data);
 
         int temp = PieceIndex;
         PieceIndex++;
         PieceIndex = activePiece.Wrap(PieceIndex, 0, PieceList.Count);
-        PieceList[temp].gameObject.SetActive(false);
-        PieceList[PieceIndex].gameObject.SetActive(true);
+        PieceList[temp].gameObject.SetActive(false); // Make Previous Piece Non Active
+        PieceList[PieceIndex].gameObject.SetActive(true); // Make New Piece Active
         activePiece = PieceList[PieceIndex];
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;

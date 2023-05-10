@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewControlData", menuName = "Data/ControlData")]
 public class PlayerControls : ScriptableObject
 {
+    // This Scriptable Object Holds The Keycodes For The Player Controls
     public KeyCode MoveLeft = KeyCode.A;
     public KeyCode MoveRight = KeyCode.D;
     public KeyCode RotateLeft = KeyCode.Q;
