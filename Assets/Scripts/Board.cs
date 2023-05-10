@@ -7,7 +7,6 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap;
     public Piece activePiece;
-    public List<Piece> PieceList = new List<Piece>();
     public List<PlayerControls> ControlDataList = new List<PlayerControls>();
     public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
@@ -26,19 +25,8 @@ public class Board : MonoBehaviour
     {
         tilemap = GetComponentInChildren<Tilemap>();
 
-        PieceList.AddRange(GetComponentsInChildren<Piece>()); // Get All Pieces And Assign Them To The List
-        activePiece = PieceList[0];
-        for (int i = 0; i < PieceList.Count; i++)
-        {
-            // Assign The Player Controls To The Pieces
-            PieceList[i].pieceControls = ControlDataList[i];
-            if (i != 0)
-            {
-                // Makes Every Piece Besides The First Piece To NonActive
-                PieceList[i].gameObject.SetActive(false);
-            }
-        }
-
+        activePiece = GetComponentInChildren<Piece>();
+        activePiece.pieceControls = ControlDataList[0];
         ghost.trackingPiece = activePiece;
 
         for (int i = 0; i < tetrominos.Length; i++)
@@ -52,12 +40,6 @@ public class Board : MonoBehaviour
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
 
         activePiece.Initialize(this, spawnPosition, data);
-
-        if (!IsValidPosition(activePiece, spawnPosition))
-        {
-            GameOver();
-        }
-
         Set(activePiece);
     }
 
@@ -65,12 +47,9 @@ public class Board : MonoBehaviour
     {
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
 
-        int temp = PieceIndex;
         PieceIndex++;
-        PieceIndex = activePiece.Wrap(PieceIndex, 0, PieceList.Count);
-        PieceList[temp].gameObject.SetActive(false); // Make Previous Piece Non Active
-        PieceList[PieceIndex].gameObject.SetActive(true); // Make New Piece Active
-        activePiece = PieceList[PieceIndex];
+        PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
+        activePiece.pieceControls = ControlDataList[PieceIndex];
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
