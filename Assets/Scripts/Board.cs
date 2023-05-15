@@ -114,22 +114,22 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    public void ClearLines()
-    {
-        int row = Bounds.yMin;
+    //public void ClearLines()
+    //{
+    //    int row = Bounds.yMin;
 
-        while (row < Bounds.yMax)
-        {
-            if (IsLineFull(row))
-            {
-                LineClear(row);
-            }
-            else
-            {
-                row++;
-            }
-        }
-    }
+    //    while (row < Bounds.yMax)
+    //    {
+    //        if (IsLineFull(row))
+    //        {
+    //            LineClear(row);
+    //        }
+    //        else
+    //        {
+    //            row++;
+    //        }
+    //    }
+    //}
 
     private bool IsLineFull(int row)
     {
