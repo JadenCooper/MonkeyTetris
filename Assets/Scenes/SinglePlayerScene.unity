@@ -813,9 +813,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: playerColors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: ControlDataList.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: playerColors.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7def146373aae9d498b53958031cb161, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: playerColors.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 11d5f1fb5fc232b4c9f6e7da18c27ec4, type: 2}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: ControlDataList.Array.data[0]
       value: 

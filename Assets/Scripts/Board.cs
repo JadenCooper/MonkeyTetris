@@ -14,6 +14,7 @@ public class Board : MonoBehaviour
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Ghost ghost;
     public GameManager gameManager;
+    public List<Tile> playerColors = new List<Tile>();
     public RectInt Bounds
     {
         get
@@ -39,7 +40,7 @@ public class Board : MonoBehaviour
     private void Start()
     {
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
-
+        data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
     }
@@ -51,6 +52,7 @@ public class Board : MonoBehaviour
         PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
         gameManager.PlayerChange(PieceIndex + 1);
         activePiece.pieceControls = ControlDataList[PieceIndex];
+        data.tile = playerColors[PieceIndex];
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
