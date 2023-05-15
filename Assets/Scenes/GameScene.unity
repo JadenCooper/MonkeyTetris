@@ -187,6 +187,7 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   cells: []
   position: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
 --- !u!1 &119056482
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,3 +868,4 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+
