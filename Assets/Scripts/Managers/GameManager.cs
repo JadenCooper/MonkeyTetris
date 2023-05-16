@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private UIManager UIManager;
     public Board board;
+    public Vector2 Score = Vector2.zero;
     private void Awake()
     {
         UIManager = GetComponent<UIManager>();
@@ -19,5 +20,19 @@ public class GameManager : MonoBehaviour
     public void PlayerChange(int PlayerNumber)
     {
         UIManager.PlayerChange(PlayerNumber);
+    }
+
+    public void BannaCollected(int PlayerIndex)
+    {
+        if (PlayerIndex == 0)
+        {
+            //Player One
+            Score.x++;
+        }
+        else
+        {
+            //Player Two
+            Score.y++;
+        }
     }
 }

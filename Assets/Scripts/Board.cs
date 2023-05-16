@@ -10,6 +10,7 @@ public class Board : MonoBehaviour
     public List<PlayerControls> ControlDataList = new List<PlayerControls>();
     public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
+    public List<PickupData> pickupsList = new List<PickupData>();
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Ghost ghost;
@@ -106,7 +107,18 @@ public class Board : MonoBehaviour
             if (tilemap.HasTile(tilePosition))
             {
                 // Checks If Tile Already Present If So Cant Move There, Therefore False
-                return false;
+                TileBase tileBase = tilemap.GetTile(tilePosition);
+                switch (tileBase.name)
+                {
+                    case "Banana":
+                        tilemap.SetTile(tilePosition, null);
+                        gameManager.BannaCollected(PieceIndex);
+                        break;
+
+                    default:
+                        // Normal Block
+                        return false;
+                }
             }
         }
 
@@ -166,6 +178,24 @@ public class Board : MonoBehaviour
 
             row++;
         }
+    }
+
+    public void SpawnPickups()
+    {
+
+        //do
+        //{
+        //    Vector3Int PickupSpawnPosition = new Vector3Int(Random.Range(0, boardSize.x), Random.Range(0, boardSize.y), 0);
+        //    PickupData data = pickupsList[Random.Range(0, pickupsList.Count)];
+
+        //    if (IsValidPosition(activePiece, PickupSpawnPosition))
+        //    {
+        //        return;
+        //    }
+        //} while ()
+        
+
+        Set(activePiece);
     }
 
 }
