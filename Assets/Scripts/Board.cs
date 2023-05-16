@@ -10,19 +10,32 @@ public class Board : MonoBehaviour
     public TetrominoData[] tetrominos;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
+    public SpriteRenderer grid;
+    public Transform border;
 
     public RectInt Bounds
     {
         get
         {
-            Vector2Int position = new Vector2Int(-boardSize.x / 2, -boardSize.y / 2);
-            return new RectInt(position, boardSize);
+            Vector2Int position = new Vector2Int(-PlayerPrefs.GetInt("BoardSize") / 2, -20 / 2);
+            return new RectInt(position, new Vector2Int(PlayerPrefs.GetInt("BoardSize"), 20));
         }
     }
     private void Awake()
     {
+        Debug.Log(PlayerPrefs.GetInt("BoardSize"));
         tilemap = GetComponentInChildren<Tilemap>();
         activePiece = GetComponentInChildren<Piece>();
+
+        // Set the boardSize to a new Vector2Int using PlayerPrefs.GetInt("BoardSize") as the x component and 20 as the y component
+        boardSize = new Vector2Int(PlayerPrefs.GetInt("BoardSize"), 20);
+
+        // Set the size of the grid using PlayerPrefs.GetInt("BoardSize") as the x component and 20 as the y component
+        grid.size = new Vector2(PlayerPrefs.GetInt("BoardSize"), 20);
+
+        // Scale the border GameObject based on the current local scale multiplied by PlayerPrefs.GetInt("BoardSize") for the x component 
+        // and 20 for the y component, while keeping the z component unchanged
+        border.transform.localScale = new Vector3((border.transform.localScale.x * PlayerPrefs.GetInt("BoardSize")), (border.transform.localScale.y * 20), 1);
 
         for (int i = 0; i < tetrominos.Length; i++)
         {
