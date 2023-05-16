@@ -107,23 +107,29 @@ public class Board : MonoBehaviour
             if (tilemap.HasTile(tilePosition))
             {
                 // Checks If Tile Already Present If So Cant Move There, Therefore False
-                TileBase tileBase = tilemap.GetTile(tilePosition);
-                switch (tileBase.name)
-                {
-                    case "Banana":
-                        tilemap.SetTile(tilePosition, null);
-                        gameManager.BannaCollected(PieceIndex);
-                        break;
-
-                    default:
-                        // Normal Block
-                        return false;
-                }
+                return false;
             }
         }
 
         // Movement Is Valid
         return true;
+    }
+
+    public void CheckForPickUp(Piece piece, Vector3Int position)
+    {
+        Vector3Int tilePosition = piece.cells[i] + position;
+        TileBase tileBase = tilemap.GetTile(tilePosition);
+        switch (tileBase.name)
+        {
+            case "Banana":
+                tilemap.SetTile(tilePosition, null);
+                gameManager.BannaCollected(PieceIndex);
+                break;
+
+            default:
+
+                break;
+        }
     }
 
     //public void ClearLines()
