@@ -16,6 +16,7 @@ public enum Tetromino
 [System.Serializable]
 public struct TetrominoData
 {
+    
     public Tetromino tetromino;
     public Tile tile;
     public Vector2Int[] cells;
