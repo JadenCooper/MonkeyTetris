@@ -8,6 +8,7 @@ public class Piece : MonoBehaviour
     public TetrominoData data;
     public Vector3Int position;
     public Vector3Int[] cells;
+    public PlayerControls pieceControls;
     public int rotationIndex = 0;
 
     public float stepDelay = 1f;
@@ -35,33 +36,33 @@ public class Piece : MonoBehaviour
     {
         board.Clear(this);
         lockTime += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(pieceControls.RotateLeft))
         {
             // Rotate Left
             Rotate(-1);
         }
-        else if(Input.GetKeyDown(KeyCode.E))
+        else if(Input.GetKeyDown(pieceControls.RotateRight))
         {
             // Rotate Right
             Rotate(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(pieceControls.MoveLeft))
         {
             Move(Vector2Int.left);
         }
-        else if(Input.GetKeyDown(KeyCode.D))
+        else if(Input.GetKeyDown(pieceControls.MoveRight))
         {
             Move(Vector2Int.right);
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(pieceControls.SoftDrop))
         {
             // Soft Drop: Move Down One Row
             Move(Vector2Int.down);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(pieceControls.HardDrop))
         {
             HardDrop();
         }
@@ -88,7 +89,7 @@ public class Piece : MonoBehaviour
     private void Lock()
     {
         board.Set(this);
-        board.ClearLines();
+        //board.ClearLines();
         board.SpawnPiece();
     }
 
@@ -180,7 +181,7 @@ public class Piece : MonoBehaviour
 
         return Wrap(wallKickIndex, 0, data.wallKicks.GetLength(0));
     }
-    private int Wrap(int input, int min, int max)
+    public int Wrap(int input, int min, int max)
     {
         if (input < min)
         {

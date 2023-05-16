@@ -7,12 +7,16 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap;
     public Piece activePiece;
+    public List<PlayerControls> ControlDataList = new List<PlayerControls>();
+    public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public SpriteRenderer grid;
     public Transform border;
-
+    public Ghost ghost;
+    public GameManager gameManager;
+    public List<Tile> playerColors = new List<Tile>();
     public RectInt Bounds
     {
         get
@@ -25,7 +29,10 @@ public class Board : MonoBehaviour
     {
         Debug.Log(PlayerPrefs.GetInt("BoardSize"));
         tilemap = GetComponentInChildren<Tilemap>();
+
         activePiece = GetComponentInChildren<Piece>();
+        activePiece.pieceControls = ControlDataList[0];
+        ghost.trackingPiece = activePiece;
 
         // Set the boardSize to a new Vector2Int using PlayerPrefs.GetInt("BoardSize") as the x component and 20 as the y component
         boardSize = new Vector2Int(PlayerPrefs.GetInt("BoardSize"), 20);
@@ -45,18 +52,28 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        SpawnPiece();
+        TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
+        data.tile = playerColors[0];
+        activePiece.Initialize(this, spawnPosition, data);
+        Set(activePiece);
     }
 
     public void SpawnPiece()
     {
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
-        Debug.Log(data);
+        PieceIndex++;
+        PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
+        gameManager.PlayerChange(PieceIndex + 1);
+        activePiece.pieceControls = ControlDataList[PieceIndex];
+        data.tile = playerColors[PieceIndex];
         activePiece.Initialize(this, spawnPosition , data);
+        ghost.trackingPiece = activePiece;
 
         if (!IsValidPosition(activePiece, spawnPosition))
         {
             GameOver();
+            SpawnPiece(); // Makes Winner Start The Next Round
+            return;
         }
 
         Set(activePiece);
@@ -64,7 +81,8 @@ public class Board : MonoBehaviour
     private void GameOver()
     {
         tilemap.ClearAllTiles();
-        Debug.Log("Game Over");
+        gameManager.GameOver(PieceIndex + 1);
+        Debug.Log("Game Over Player" + (PieceIndex + 1) + " Lost");
     }
     public void Set(Piece piece)
     {
@@ -109,22 +127,22 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    public void ClearLines()
-    {
-        int row = Bounds.yMin;
+    //public void ClearLines()
+    //{
+    //    int row = Bounds.yMin;
 
-        while (row < Bounds.yMax)
-        {
-            if (IsLineFull(row))
-            {
-                LineClear(row);
-            }
-            else
-            {
-                row++;
-            }
-        }
-    }
+    //    while (row < Bounds.yMax)
+    //    {
+    //        if (IsLineFull(row))
+    //        {
+    //            LineClear(row);
+    //        }
+    //        else
+    //        {
+    //            row++;
+    //        }
+    //    }
+    //}
 
     private bool IsLineFull(int row)
     {
