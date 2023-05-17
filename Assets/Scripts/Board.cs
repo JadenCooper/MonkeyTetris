@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
     public List<PlayerControls> ControlDataList = new List<PlayerControls>();
     public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
-    public List<PickupData> pickupsList = new List<PickupData>();
+    public PickupData[] pickups;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
     public Ghost ghost;
@@ -27,7 +27,6 @@ public class Board : MonoBehaviour
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
-
         activePiece = GetComponentInChildren<Piece>();
         activePiece.pieceControls = ControlDataList[0];
         ghost.trackingPiece = activePiece;
@@ -44,6 +43,7 @@ public class Board : MonoBehaviour
         data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
+        SpawnPickups();
     }
 
     public void SpawnPiece()
@@ -115,22 +115,22 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    public void CheckForPickUp(Piece piece, Vector3Int position)
-    {
-        Vector3Int tilePosition = piece.cells[i] + position;
-        TileBase tileBase = tilemap.GetTile(tilePosition);
-        switch (tileBase.name)
-        {
-            case "Banana":
-                tilemap.SetTile(tilePosition, null);
-                gameManager.BannaCollected(PieceIndex);
-                break;
+    //public void CheckForPickUp(Piece piece, Vector3Int position)
+    ////{
+    ////    Vector3Int tilePosition = piece.cells[i] + position;
+    ////    TileBase tileBase = tilemap.GetTile(tilePosition);
+    ////    switch (tileBase.name)
+    ////    {
+    ////        case "Banana":
+    ////            tilemap.SetTile(tilePosition, null);
+    ////            gameManager.BannaCollected(PieceIndex);
+    ////            break;
 
-            default:
+    ////        default:
 
-                break;
-        }
-    }
+    ////            break;
+    ////    }
+    ////}
 
     //public void ClearLines()
     //{
@@ -188,20 +188,24 @@ public class Board : MonoBehaviour
 
     public void SpawnPickups()
     {
+        int bananaAmount = Random.Range(0, 5);
+        Debug.Log(bananaAmount);
+        for (int i = 0; i < bananaAmount; i++)
+        {
+            Pickup pickup = new();
+            PickupData data = pickups[Random.Range(0, pickups.Length)];
+            Vector3Int pickupSpawn = new Vector3Int(Random.Range(-5, 5), Random.Range(9, -9), 0);
+            Debug.Log(pickupSpawn);
+            pickup.Initialize(pickupSpawn, data);
 
-        //do
-        //{
-        //    Vector3Int PickupSpawnPosition = new Vector3Int(Random.Range(0, boardSize.x), Random.Range(0, boardSize.y), 0);
-        //    PickupData data = pickupsList[Random.Range(0, pickupsList.Count)];
+            //Vector3Int tilePosition = pickup.cells + pickup.position;
 
-        //    if (IsValidPosition(activePiece, PickupSpawnPosition))
-        //    {
-        //        return;
-        //    }
-        //} while ()
-        
-
-        Set(activePiece);
+            for (int cell = 0; cell < pickup.cells.Length; cell++)
+            {
+                Vector3Int tilePosition = pickup.cells[cell] + pickup.position;
+                tilemap.SetTile(tilePosition, pickup.data.tile);
+            }
+        }
     }
 
 }

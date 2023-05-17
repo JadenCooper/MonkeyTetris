@@ -1,19 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public enum Pickup
+public class Pickup : MonoBehaviour
 {
-    B
-}
-public struct PickupData
-{
-    public Pickup pickUp;
-    public Tile tile;
-    public Vector2Int[] cells;
-    public void Initalize()
+    public Vector3Int[] cells;
+    public PickupData data;
+    public Vector3Int position;
+
+    public void Initialize(Vector3Int position, PickupData data)
     {
-        this.cells = Data.Pickups[pickUp];
+        this.position = position;
+        this.data = data;
+        cells = new Vector3Int[data.cells.Length];
+
+        for (int i = 0; i < data.cells.Length; i++)
+        {
+            cells[i] = (Vector3Int)data.cells[i];
+        }
+    }
+
+    public virtual void PreformEffect()
+    {
+
     }
 }
