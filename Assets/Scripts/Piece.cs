@@ -109,6 +109,12 @@ public class Piece : MonoBehaviour
         }
     }
 
+    public void ForceLock() //Called by the ghost when it ends the timer for the tracked piece
+    {
+        Move(Vector2Int.down);
+        Lock();
+    }
+
     private bool Move(Vector2Int translation)
     {
         Vector3Int newPosition = position;
