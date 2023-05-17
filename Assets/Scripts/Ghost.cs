@@ -13,6 +13,8 @@ public class Ghost : MonoBehaviour
     public Vector3Int[] cells;
     public Vector3Int position;
 
+    private float lockoutTimer = 1f;
+
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
@@ -25,6 +27,20 @@ public class Ghost : MonoBehaviour
         Copy();
         Drop();
         Set();
+        TestLockout();
+    }
+
+    private void TestLockout()
+    {
+        if (position == trackingPiece.position)
+        {
+            lockoutTimer -= Time.deltaTime;
+        }
+        if (lockoutTimer <= 0)
+        {
+            lockoutTimer = 1f;
+            trackingPiece.ForceLock();
+        }
     }
 
     private void Clear()
