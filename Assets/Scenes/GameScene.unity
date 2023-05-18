@@ -332,6 +332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
   activePiece: {fileID: 0}
+  ControlDataList: []
+  PieceIndex: 0
   tetrominos:
   - tetromino: 0
     tile: {fileID: 11400000, guid: 3f4427b08971eb34881cfc4c257e864d, type: 2}
@@ -364,6 +366,9 @@ MonoBehaviour:
   boardSize: {x: 10, y: 20}
   grid: {fileID: 711606976}
   border: {fileID: 2049773078}
+  ghost: {fileID: 0}
+  gameManager: {fileID: 0}
+  playerColors: []
 --- !u!114 &222426855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +388,7 @@ MonoBehaviour:
     cells: []
   position: {x: 0, y: 0, z: 0}
   cells: []
+  pieceControls: {fileID: 0}
   rotationIndex: 0
   stepDelay: 1
   lockDelay: 0.5
@@ -650,7 +656,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10, y: 20}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -868,8 +874,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049773076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0004, y: 0.0007, z: 0}
-  m_LocalScale: {x: 0.099694304, y: 0.049924735, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

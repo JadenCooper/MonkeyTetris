@@ -207,6 +207,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &253020974 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1169076176437697651, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+  m_PrefabInstance: {fileID: 1169076176618072720}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &253103649
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,12 +290,30 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
   m_PrefabInstance: {fileID: 1169076176618072720}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 253020974}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11e35334ebde8184ba0eae54b003a22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &264470867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253020974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9acbef9290b4e2d91d6ad132a5db5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkboxes: []
+--- !u!212 &672860862 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1169076175916197968, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+  m_PrefabInstance: {fileID: 1169076176618072720}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1022412964 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1169076176608217763, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
@@ -357,6 +380,11 @@ MonoBehaviour:
   rotationIndex: 0
   stepDelay: 1
   lockDelay: 0.5
+--- !u!4 &1217649785 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1169076177254229126, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+  m_PrefabInstance: {fileID: 1169076176618072720}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1593200242
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,10 +824,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1169076175916197968, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076175916197968, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: grid
+      value: 
+      objectReference: {fileID: 672860862}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: ghost
       value: 
       objectReference: {fileID: 1022412964}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: border
+      value: 
+      objectReference: {fileID: 1217649785}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: activePiece
       value: 
@@ -847,6 +891,22 @@ PrefabInstance:
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: tetrominos.Array.data[0].tetromino
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076177254229126, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.09987481
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076177254229126, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.050001267
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076177254229126, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.21412
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076177254229126, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.87175
       objectReference: {fileID: 0}
     - target: {fileID: 1169076177740018797, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: m_Name
