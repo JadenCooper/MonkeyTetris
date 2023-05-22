@@ -22,8 +22,9 @@ public class GameManager : MonoBehaviour
         UIManager.PlayerChange(PlayerNumber);
     }
 
-    public void BannaCollected(int PlayerIndex)
+    public void BananaCollected(int PlayerIndex)
     {
+        // Player Currently Gets 1 Score Per Banana
         if (PlayerIndex == 0)
         {
             //Player One

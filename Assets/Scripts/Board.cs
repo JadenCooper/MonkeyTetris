@@ -108,7 +108,7 @@ public class Board : MonoBehaviour
             if (tilemap.HasTile(tilePosition))
             {
                 // Checks If Tile Already Present If So Cant Move There, Therefore False Unless Its A Pickup
-                if (CheckPickup) // The Check
+                if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
                     return CheckForPickUp(tilePosition);
                 }
@@ -131,7 +131,7 @@ public class Board : MonoBehaviour
         {
             case "Yellow": // Banana Tile
                 tilemap.SetTile(tilePosition, null);
-                gameManager.BannaCollected(PieceIndex);
+                gameManager.BananaCollected(PieceIndex);
                 return true;
 
             default: // Normal Tile
