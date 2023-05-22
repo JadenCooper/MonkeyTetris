@@ -814,6 +814,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: boardSizeData
+      value: 
+      objectReference: {fileID: 11400000, guid: b6c1767adb548ee4cb0246685a24ed37, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: pickups.Array.size
       value: 1
       objectReference: {fileID: 0}

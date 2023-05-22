@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18dc77b241490494388a9713cd8c6311, type: 3}
   m_Name: 10,20 BoardData
   m_EditorClassIdentifier: 
+  pickupXRange: {x: -5, y: 4}
+  pickupYRange: {x: -8, y: 2}
