@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private UIManager UIManager;
     public Board board;
+    public int bananaAmount;
     public Vector2 Score = Vector2.zero;
     private void Awake()
     {
@@ -36,5 +37,11 @@ public class GameManager : MonoBehaviour
             Score.y++;
         }
         Debug.Log("Score Now Stands At Player One: " + Score.x + " Player Two: " + Score.y);
+        bananaAmount--;
+        if (bananaAmount <= 0)
+        {
+            // If All Bananas Are Collected Then Spawn Some More
+            board.SpawnPickups();
+        }
     }
 }

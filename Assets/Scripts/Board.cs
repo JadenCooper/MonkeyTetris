@@ -200,6 +200,7 @@ public class Board : MonoBehaviour
         {
             SpawnPickup();
         }
+        gameManager.bananaAmount = bananaAmount;
     }
 
     public void SpawnPickup()

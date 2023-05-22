@@ -16,7 +16,7 @@ public class Ghost : MonoBehaviour
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
-        cells = new Vector3Int[4];
+        cells = new Vector3Int[5];
     }
 
     private void LateUpdate()
