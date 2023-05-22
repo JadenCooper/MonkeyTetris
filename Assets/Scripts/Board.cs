@@ -43,7 +43,8 @@ public class Board : MonoBehaviour
         data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
-        SpawnPickups();
+        //SpawnPickups();
+        SpawnPickup();
     }
 
     public void SpawnPiece()
@@ -192,19 +193,27 @@ public class Board : MonoBehaviour
         Debug.Log(bananaAmount);
         for (int i = 0; i < bananaAmount; i++)
         {
-            Pickup pickup = new();
-            PickupData data = pickups[Random.Range(0, pickups.Length)];
-            Vector3Int pickupSpawn = new Vector3Int(Random.Range(-5, 5), Random.Range(9, -9), 0);
-            Debug.Log(pickupSpawn);
-            pickup.Initialize(pickupSpawn, data);
+            SpawnPickup();
+        }
+    }
 
-            //Vector3Int tilePosition = pickup.cells + pickup.position;
+    public void SpawnPickup()
+    {
+        Pickup pickup = new();
+        PickupData data = pickups[Random.Range(0, pickups.Length)];
+        //Vector3Int pickupSpawn = new Vector3Int(Random.Range(-5, 5), Random.Range(9, -9), 0);
 
-            for (int cell = 0; cell < pickup.cells.Length; cell++)
-            {
-                Vector3Int tilePosition = pickup.cells[cell] + pickup.position;
-                tilemap.SetTile(tilePosition, pickup.data.tile);
-            }
+        // -5 X  Left 4 X Right  9 Y Top -10 Y Bottom
+        Vector3Int pickupSpawn = new Vector3Int(4, -10, 0);
+        Debug.Log(pickupSpawn);
+        pickup.Initialize(pickupSpawn, data);
+
+        //Vector3Int tilePosition = pickup.cells + pickup.position;
+
+        for (int cell = 0; cell < pickup.cells.Length; cell++)
+        {
+            Vector3Int tilePosition = pickup.cells[cell] + pickup.position;
+            tilemap.SetTile(tilePosition, pickup.data.tile);
         }
     }
 

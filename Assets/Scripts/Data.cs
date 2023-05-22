@@ -25,7 +25,7 @@ public static class Data
 
     public static readonly Dictionary<PickupType, Vector2Int[]> Pickups = new Dictionary<PickupType, Vector2Int[]>()
     {
-        { PickupType.B, new Vector2Int[] {new Vector2Int( 0, 1) } },
+        { PickupType.B, new Vector2Int[] {new Vector2Int( 0, 0) } },
    };
 
     //private static readonly Vector2Int[,] WallKicksI = new Vector2Int[,] {

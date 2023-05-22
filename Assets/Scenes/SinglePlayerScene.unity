@@ -801,6 +801,10 @@ PrefabInstance:
       propertyPath: m_Size.x
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1169076175916197968, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_Size.y
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: ghost
       value: 
@@ -863,6 +867,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: pickups.Array.data[0].cells.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169076177254229124, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1169076177740018797, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
