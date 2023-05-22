@@ -108,7 +108,7 @@ public class Piece : MonoBehaviour
         newPosition.x += translation.x;
         newPosition.y += translation.y;
 
-        if (board.IsValidPosition(cells, newPosition))
+        if (board.IsValidPosition(cells, newPosition, true))
         {
             position = newPosition;
             lockTime = 0f;

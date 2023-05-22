@@ -44,7 +44,6 @@ public class Board : MonoBehaviour
         data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
-        //SpawnPickups();
         SpawnPickups();
     }
 
@@ -59,7 +58,7 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
-        if (!IsValidPosition(activePiece.cells, spawnPosition))
+        if (!IsValidPosition(activePiece.cells, spawnPosition, true))
         {
             GameOver();
             SpawnPiece(); // Makes Winner Start The Next Round
@@ -93,7 +92,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position)
+    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup)
     {
         // Checks If All Cells Would Be Valid After Move
         for (int i = 0; i < cells.Length; i++)
@@ -108,8 +107,15 @@ public class Board : MonoBehaviour
 
             if (tilemap.HasTile(tilePosition))
             {
-                // Checks If Tile Already Present If So Cant Move There, Therefore False
-                return false;
+                // Checks If Tile Already Present If So Cant Move There, Therefore False Unless Its A Pickup
+                if (CheckPickup) // The Check
+                {
+                    return CheckForPickUp(tilePosition);
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -117,22 +123,21 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    //public void CheckForPickUp(Piece piece, Vector3Int position)
-    ////{
-    ////    Vector3Int tilePosition = piece.cells[i] + position;
-    ////    TileBase tileBase = tilemap.GetTile(tilePosition);
-    ////    switch (tileBase.name)
-    ////    {
-    ////        case "Banana":
-    ////            tilemap.SetTile(tilePosition, null);
-    ////            gameManager.BannaCollected(PieceIndex);
-    ////            break;
+    public bool CheckForPickUp(Vector3Int tilePosition)
+    {
+        // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
+        TileBase tileBase = tilemap.GetTile(tilePosition);
+        switch (tileBase.name)
+        {
+            case "Yellow": // Banana Tile
+                tilemap.SetTile(tilePosition, null);
+                gameManager.BannaCollected(PieceIndex);
+                return true;
 
-    ////        default:
-
-    ////            break;
-    ////    }
-    ////}
+            default: // Normal Tile
+                return false;
+        }
+    }
 
     //public void ClearLines()
     //{
@@ -191,7 +196,6 @@ public class Board : MonoBehaviour
     public void SpawnPickups()
     {
         int bananaAmount = Random.Range(1, 4);
-        Debug.Log(bananaAmount);
         for (int i = 0; i < bananaAmount; i++)
         {
             SpawnPickup();
@@ -210,19 +214,8 @@ public class Board : MonoBehaviour
                 Random.Range(boardSizeData.pickupYRange.x, boardSizeData.pickupYRange.y), 0);
             pickup.Initialize(pickupSpawn, data);
 
-            if(!IsValidPosition(pickup.cells, pickupSpawn))
-            {
-                // Not Free Spot
-                FreePosition = false;
-            }
-            else
-            {
-                // Free Spot
-                FreePosition = true;
-            }
+            FreePosition = IsValidPosition(pickup.cells, pickupSpawn, false); // Checks If Pickup Position Is Free
         } while (!FreePosition);
-
-        //Vector3Int tilePosition = pickup.cells + pickup.position;
 
         for (int cell = 0; cell < pickup.cells.Length; cell++)
         {

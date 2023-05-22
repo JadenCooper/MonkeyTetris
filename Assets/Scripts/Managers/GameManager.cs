@@ -34,5 +34,6 @@ public class GameManager : MonoBehaviour
             //Player Two
             Score.y++;
         }
+        Debug.Log("Score Now Stands At Player One: " + Score.x + " Player Two: " + Score.y);
     }
 }
