@@ -26,4 +26,8 @@ public class SettingScript : MonoBehaviour
         settingsPanel.SetActive(true);
     }
     
+    private void Start(){
+        settingsPanel.SetActive(false);
+    }
+    
 }
