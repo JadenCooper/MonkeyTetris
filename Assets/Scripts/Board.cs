@@ -27,6 +27,7 @@ public class Board : MonoBehaviour
             return new RectInt(position, boardSize);
         }
     }
+    public TileBase[] obstacleTiles; // Array to hold obstacle tiles
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
@@ -57,6 +58,9 @@ public class Board : MonoBehaviour
         data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
+
+        // Spawn random cubes
+        SpawnRandomObstacles();
     }
 
     public void SpawnPiece()
@@ -84,6 +88,7 @@ public class Board : MonoBehaviour
         tilemap.ClearAllTiles();
         gameManager.GameOver(PieceIndex + 1);
         Debug.Log("Game Over Player" + (PieceIndex + 1) + " Lost");
+        SpawnRandomObstacles();
     }
     public void Set(Piece piece)
     {
@@ -182,4 +187,28 @@ public class Board : MonoBehaviour
         }
     }
 
+    private void SpawnRandomObstacles()
+    {
+        int obstacleCount = Random.Range(3, 6); // Randomly choose the number of obstacles to spawn (between 3 and 5)
+
+        for (int i = 0; i < obstacleCount; i++)
+        {
+            // Generate a random position within the board bounds
+            int x = Random.Range(0, boardSize.x) - boardSize.x/2;
+            int y = Random.Range(0, boardSize.y) - boardSize.y/2;
+
+            // Generate a random number between 0 and the number of obstacle tiles
+            int randomIndex = Random.Range(0, obstacleTiles.Length);
+
+            // Get the random obstacle tile from the tile palette
+            TileBase obstacleTile = obstacleTiles[randomIndex];
+
+            // If the obstacle tile exists, spawn it at the randomly chosen position
+            if (obstacleTile != null)
+            {
+                Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                tilemap.SetTile(tilePosition, obstacleTile);
+            }
+        }
+    }
 }
