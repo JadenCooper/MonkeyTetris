@@ -13,6 +13,9 @@ public class Board : MonoBehaviour
     public PickupData[] pickups;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
+
+    public SpriteRenderer grid;
+    public Transform border;
     public Ghost ghost;
     public GameManager gameManager;
     public List<Tile> playerColors = new List<Tile>();
@@ -25,6 +28,7 @@ public class Board : MonoBehaviour
             return new RectInt(position, boardSize);
         }
     }
+    public TileBase[] obstacleTiles; // Array to hold obstacle tiles
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
@@ -32,6 +36,15 @@ public class Board : MonoBehaviour
         activePiece.pieceControls = ControlDataList[0];
         ghost.trackingPiece = activePiece;
 
+        // Set the boardSize to a new Vector2Int using PlayerPrefs.GetInt("BoardSize") as the x component and 20 as the y component
+        boardSize = new Vector2Int(PlayerPrefs.GetInt("BoardSize"), 20);
+
+        // Set the size of the grid using PlayerPrefs.GetInt("BoardSize") as the x component and 20 as the y component
+        grid.size = new Vector2(PlayerPrefs.GetInt("BoardSize"), 20);
+
+        // Scale the border GameObject based on the current local scale multiplied by PlayerPrefs.GetInt("BoardSize") for the x component 
+        // and 20 for the y component, while keeping the z component unchanged
+        border.transform.localScale = new Vector3((border.transform.localScale.x * PlayerPrefs.GetInt("BoardSize")), (border.transform.localScale.y * 20), 1);
         for (int i = 0; i < tetrominos.Length; i++)
         {
             tetrominos[i].Initalize();
@@ -45,6 +58,8 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
         SpawnPickups();
+        // Spawn random cubes
+        SpawnRandomObstacles();
     }
 
     public void SpawnPiece()
@@ -72,6 +87,7 @@ public class Board : MonoBehaviour
         tilemap.ClearAllTiles();
         gameManager.GameOver(PieceIndex + 1);
         Debug.Log("Game Over Player" + (PieceIndex + 1) + " Lost");
+        SpawnRandomObstacles();
     }
     public void Set(Piece piece)
     {
@@ -225,4 +241,28 @@ public class Board : MonoBehaviour
         }
     }
 
+    private void SpawnRandomObstacles()
+    {
+        int obstacleCount = Random.Range(3, 6); // Randomly choose the number of obstacles to spawn (between 3 and 5)
+
+        for (int i = 0; i < obstacleCount; i++)
+        {
+            // Generate a random position within the board bounds
+            int x = Random.Range(0, boardSize.x) - boardSize.x/2;
+            int y = Random.Range(0, boardSize.y) - boardSize.y/2;
+
+            // Generate a random number between 0 and the number of obstacle tiles
+            int randomIndex = Random.Range(0, obstacleTiles.Length);
+
+            // Get the random obstacle tile from the tile palette
+            TileBase obstacleTile = obstacleTiles[randomIndex];
+
+            // If the obstacle tile exists, spawn it at the randomly chosen position
+            if (obstacleTile != null)
+            {
+                Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                tilemap.SetTile(tilePosition, obstacleTile);
+            }
+        }
+    }
 }

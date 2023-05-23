@@ -16,6 +16,8 @@ public class Piece : MonoBehaviour
 
     private float stepTime;
     private float lockTime;
+
+    private bool hard = false;
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         this.board = board;
@@ -64,6 +66,11 @@ public class Piece : MonoBehaviour
 
         if (Input.GetKeyDown(pieceControls.HardDrop))
         {
+            hard = true;
+        }
+
+        if (hard) //Run HardDrop every update instead of every loop tick to slow it down a little.
+        {
             HardDrop();
         }
 
@@ -93,15 +100,21 @@ public class Piece : MonoBehaviour
         board.SpawnPiece();
     }
 
-    public void HardDrop()
+    private void HardDrop() //Run an instance of hard dropping, ending it if we are locked down.
     {
-        while(Move(Vector2Int.down))
+        if (!Move(Vector2Int.down))
         {
-            continue;
+            hard = false;
+            Lock();
         }
-        
+    }
+
+    public void ForceLock() //Called by the ghost when it ends the timer for the tracked piece
+    {
+        Move(Vector2Int.down);
         Lock();
     }
+
     private bool Move(Vector2Int translation)
     {
         Vector3Int newPosition = position;
