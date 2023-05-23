@@ -7,7 +7,7 @@ public class ChangeScene : MonoBehaviour
 {
     
     public void GoToGame(){
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("SinglePlayerScene");
     }
 
     public void GoToMenu(){

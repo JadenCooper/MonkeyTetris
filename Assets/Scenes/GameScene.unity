@@ -332,6 +332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
   activePiece: {fileID: 0}
+  ControlDataList: []
+  PieceIndex: 0
   tetrominos:
   - tetromino: 0
     tile: {fileID: 11400000, guid: 3f4427b08971eb34881cfc4c257e864d, type: 2}
@@ -362,6 +364,11 @@ MonoBehaviour:
     cells: []
   spawnPosition: {x: -1, y: 8, z: 0}
   boardSize: {x: 10, y: 20}
+  grid: {fileID: 711606976}
+  border: {fileID: 2049773078}
+  ghost: {fileID: 0}
+  gameManager: {fileID: 0}
+  playerColors: []
 --- !u!114 &222426855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +388,7 @@ MonoBehaviour:
     cells: []
   position: {x: 0, y: 0, z: 0}
   cells: []
+  pieceControls: {fileID: 0}
   rotationIndex: 0
   stepDelay: 1
   lockDelay: 0.5
