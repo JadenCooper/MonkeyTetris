@@ -15,4 +15,8 @@ public class ShowSettings : MonoBehaviour
      public void GoToMenu(){
         settingsPanel.SetActive(false);
     }
+    private void Start()
+    {
+        GoToMenu();
+    }
 }
