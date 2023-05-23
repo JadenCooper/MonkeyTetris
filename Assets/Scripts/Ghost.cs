@@ -18,7 +18,7 @@ public class Ghost : MonoBehaviour
     private void Awake()
     {
         tilemap = GetComponentInChildren<Tilemap>();
-        cells = new Vector3Int[4];
+        cells = new Vector3Int[5];
     }
 
     private void LateUpdate()
@@ -73,7 +73,7 @@ public class Ghost : MonoBehaviour
         {
             position.y = row;
 
-            if (mainBoard.IsValidPosition(trackingPiece, position))
+            if (mainBoard.IsValidPosition(trackingPiece.cells, position, false))
             {
                 this.position = position;
             }
