@@ -6,24 +6,32 @@ using UnityEngine.UI;
 
 public class ChangePlayerControls : MonoBehaviour
 {
+    //// This Script Handles All Player Control Changes \\\\
+
+    // List of buttons for control customization
     public List<Button> controlButtons = new List<Button>();
+    // List of text elements to display control bindings
     public List<TMP_Text> controlTexts = new List<TMP_Text>();
+
+    // List of player control configurations
     public List<PlayerControls> playerControls = new List<PlayerControls>();
+    // List of default player control configurations
     public List<PlayerControls> playerControlsDefaults = new List<PlayerControls>();
-    private bool listening = false;
-    private int ControlIndex;
+
+    private bool listening = false; // Flag to indicate if listening for key input
+    private int ControlIndex; // Index of the selected control
     private void Update()
     {
-        if (Input.anyKeyDown && listening)
+        if (listening && Input.anyKeyDown)
         {
             KeyCode keyCode = GetPressedKeyCode();
             SetControl(keyCode);
-            //Debug.Log("Key Pressed: " + keyCode.ToString());
         }
     }
 
     private KeyCode GetPressedKeyCode()
     {
+        // Get the KeyCode of the pressed key
         foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyDown(keyCode))
@@ -39,6 +47,7 @@ public class ChangePlayerControls : MonoBehaviour
 
     public void AlterListening(Button PressedButton)
     {
+        // Triggered when a control customization button is pressed
         for (int i = 0; i < controlButtons.Count; i++)
         {
             if (PressedButton == controlButtons[i])
@@ -52,6 +61,7 @@ public class ChangePlayerControls : MonoBehaviour
 
     public void AlterButtons()
     {
+        // Enable/disable control customization buttons and toggle listening flag
         for (int i = 0; i < controlButtons.Count; i++)
         {
             controlButtons[i].interactable = !controlButtons[i].interactable;
@@ -61,6 +71,7 @@ public class ChangePlayerControls : MonoBehaviour
 
     public void SetControl(KeyCode keycode)
     {
+        // Set the control binding based on the selected control index and KeyCode
         int PlayerIndex = 0;
         if (ControlIndex >= 5)
         {
@@ -98,6 +109,7 @@ public class ChangePlayerControls : MonoBehaviour
 
     public void ResetControls()
     {
+        // Reset all control bindings to their defaults
         Debug.Log("Reset");
         for (int i = 0; i < playerControls.Count; i++)
         {
@@ -108,6 +120,7 @@ public class ChangePlayerControls : MonoBehaviour
 
     public void SetControlTexts()
     {
+        // Update the control text elements with the current control bindings
         int IndexIncrement = 0;
         for (int i = 0; i < playerControls.Count; i++)
         {

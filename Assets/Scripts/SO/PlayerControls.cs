@@ -14,6 +14,7 @@ public class PlayerControls : ScriptableObject
 
     public void CopyFrom(PlayerControls other)
     {
+        // Used To Copy Another Player Control's Object sTo This One
         MoveLeft = other.MoveLeft;
         MoveRight = other.MoveRight;
         Rotate = other.Rotate;

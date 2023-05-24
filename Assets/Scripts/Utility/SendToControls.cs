@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SendToControls : MonoBehaviour
 {
+    // Utility Script To Get Button To Find Index
     public ChangePlayerControls playerControls;
     public void Send()
     {
