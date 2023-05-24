@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveLeft: 276
   MoveRight: 275
-  RotateLeft: 258
-  RotateRight: 259
+  Rotate: 273
   SoftDrop: 274
   HardDrop: 256

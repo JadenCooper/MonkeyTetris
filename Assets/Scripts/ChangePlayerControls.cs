@@ -103,5 +103,20 @@ public class ChangePlayerControls : MonoBehaviour
         {
             playerControls[i].CopyFrom(playerControlsDefaults[i]);
         }
+        SetControlTexts();
+    }
+
+    public void SetControlTexts()
+    {
+        int IndexIncrement = 0;
+        for (int i = 0; i < playerControls.Count; i++)
+        {
+            controlTexts[0 + IndexIncrement].text = playerControls[i].Rotate.ToString();
+            controlTexts[1 + IndexIncrement].text = playerControls[i].MoveLeft.ToString();
+            controlTexts[2 + IndexIncrement].text = playerControls[i].MoveRight.ToString();
+            controlTexts[3 + IndexIncrement].text = playerControls[i].SoftDrop.ToString();
+            controlTexts[4 + IndexIncrement].text = playerControls[i].HardDrop.ToString();
+            IndexIncrement = 5;
+        }
     }
 }
