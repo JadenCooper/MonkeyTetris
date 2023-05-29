@@ -70,7 +70,6 @@ public class PickupManager : MonoBehaviour
         {
             case "Yellow": // Banana Tile
                 RemoveBanana(tilePosition);
-                gameBoard.tilemap.SetTile(tilePosition, null);
                 gameManager.BananaCollected(PieceIndex);
                 return true;
 
@@ -81,10 +80,13 @@ public class PickupManager : MonoBehaviour
 
     public void ChangeBananaTile(int RipenessIndex, Vector3Int Position)
     {
-
+        if (gameBoard.tilemap.GetTile(Position).name == "Yellow")
+        {
+            gameBoard.tilemap.SetTile(Position, BananaRipenessTiles[RipenessIndex]);
+        }
     }
 
-    private void RemoveBanana(Vector3Int Position)
+    public void RemoveBanana(Vector3Int Position)
     {
         for (int i = 0; i < BananaList.Count; i++)
         {
@@ -93,6 +95,7 @@ public class PickupManager : MonoBehaviour
                 // This Is The Correct Holder
                 Destroy(BananaList[i]);
                 BananaList.RemoveAt(i);
+                gameBoard.tilemap.SetTile(Position, null);
             }
         }
     }
