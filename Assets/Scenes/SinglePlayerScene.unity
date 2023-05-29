@@ -633,6 +633,7 @@ GameObject:
   - component: {fileID: 1956594308}
   - component: {fileID: 1956594307}
   - component: {fileID: 1956594309}
+  - component: {fileID: 1956594310}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -653,6 +654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 264470866}
+  pickupManager: {fileID: 1956594310}
   bananaAmount: 0
   Score: {x: 0, y: 0}
 --- !u!4 &1956594308
@@ -684,6 +686,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activePlayerText: {fileID: 2035761371}
   LostPlayerText: {fileID: 1642133180}
+--- !u!114 &1956594310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956594306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a0ea7c120401f4cbb70cfc190e119f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickups:
+  - pickUp: 0
+    tile: {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
+    cells:
+    - {x: 0, y: 0}
+  BananaHolder: {fileID: 5317975421189223614, guid: a599d6c8f1d10414bbc20738b6c4eba8, type: 3}
+  BananaList: []
+  gameManager: {fileID: 1956594307}
+  gameBoard: {fileID: 264470866}
+  BananaRipenessTiles:
+  - {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
+  - {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
+  - {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
 --- !u!1 &2035761369
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,6 +881,10 @@ PrefabInstance:
       propertyPath: boardSizeData
       value: 
       objectReference: {fileID: 11400000, guid: b6c1767adb548ee4cb0246685a24ed37, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: pickupManager
+      value: 
+      objectReference: {fileID: 1956594310}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: pickups.Array.size
       value: 1
