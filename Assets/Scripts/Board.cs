@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
     public List<PlayerControls> ControlDataList = new List<PlayerControls>();
     public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
-    public PickupData[] pickups;
+
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
 
@@ -20,6 +20,8 @@ public class Board : MonoBehaviour
     public GameManager gameManager;
     public List<Tile> playerColors = new List<Tile>();
     public BoardSizeSO boardSizeData;
+
+    public PickupManager pickupManager;
     public RectInt Bounds
     {
         get
@@ -57,7 +59,7 @@ public class Board : MonoBehaviour
         data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
-        SpawnPickups();
+        pickupManager.SpawnPickups();
         // Spawn random cubes
         SpawnRandomObstacles();
     }
@@ -209,37 +211,6 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void SpawnPickups()
-    {
-        int bananaAmount = Random.Range(1, 4);
-        for (int i = 0; i < bananaAmount; i++)
-        {
-            SpawnPickup();
-        }
-        gameManager.bananaAmount = bananaAmount;
-    }
-
-    public void SpawnPickup()
-    {
-        Pickup pickup = new();
-        PickupData data = pickups[Random.Range(0, pickups.Length)];
-        bool FreePosition = true;
-        do
-        {
-            // -5 X  Left 4 X Right  9 Y Top -10 Y Bottom For Default 10/20 Board
-            Vector3Int pickupSpawn = new Vector3Int(Random.Range(boardSizeData.pickupXRange.x, boardSizeData.pickupXRange.y),
-                Random.Range(boardSizeData.pickupYRange.x, boardSizeData.pickupYRange.y), 0);
-            pickup.Initialize(pickupSpawn, data);
-
-            FreePosition = IsValidPosition(pickup.cells, pickupSpawn, false); // Checks If Pickup Position Is Free
-        } while (!FreePosition);
-
-        for (int cell = 0; cell < pickup.cells.Length; cell++)
-        {
-            Vector3Int tilePosition = pickup.cells[cell] + pickup.position;
-            tilemap.SetTile(tilePosition, pickup.data.tile);
-        }
-    }
 
     private void SpawnRandomObstacles()
     {

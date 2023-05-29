@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private UIManager UIManager;
     public Board board;
+    public PickupManager pickupManager;
     public int bananaAmount;
     public Vector2 Score = Vector2.zero;
     private void Awake()
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
         if (bananaAmount <= 0)
         {
             // If All Bananas Are Collected Then Spawn Some More
-            board.SpawnPickups();
+            pickupManager.SpawnPickups();
         }
     }
 }
