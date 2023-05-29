@@ -14,6 +14,8 @@ public class Board : MonoBehaviour
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
 
+    private bool locked = false;
+
     public SpriteRenderer grid;
     public Transform border;
     public Ghost ghost;
@@ -146,9 +148,16 @@ public class Board : MonoBehaviour
         switch (tileBase.name)
         {
             case "Yellow": // Banana Tile
-                tilemap.SetTile(tilePosition, null);
-                gameManager.BananaCollected(PieceIndex);
-                return true;
+                
+                if(activePiece.locked){
+                    Debug.Log("here");
+                    tilemap.SetTile(tilePosition, null);
+                    gameManager.BananaCollected(PieceIndex);
+                    return true;
+                }else{
+                    return false;
+                }
+                
 
             default: // Normal Tile
                 return false;

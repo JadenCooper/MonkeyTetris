@@ -11,6 +11,8 @@ public class Piece : MonoBehaviour
     public PlayerControls pieceControls;
     public int rotationIndex = 0;
 
+    public bool locked = false;
+
     public float stepDelay = 1f;
     public float lockDelay = 0.5f;
 
@@ -95,9 +97,12 @@ public class Piece : MonoBehaviour
 
     private void Lock()
     {
+        Debug.Log("Lock");
         board.Set(this);
+        locked = true;
         //board.ClearLines();
         board.SpawnPiece();
+        
     }
 
     private void HardDrop() //Run an instance of hard dropping, ending it if we are locked down.
