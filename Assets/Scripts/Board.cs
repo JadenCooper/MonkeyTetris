@@ -59,7 +59,7 @@ public class Board : MonoBehaviour
         data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
-        pickupManager.SpawnPickups();
+        pickupManager.StartGame();
         // Spawn random cubes
         SpawnRandomObstacles();
     }
@@ -128,7 +128,7 @@ public class Board : MonoBehaviour
                 // Checks If Tile Already Present If So Cant Move There, Therefore False Unless Its A Pickup
                 if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
-                    return CheckForPickUp(tilePosition);
+                    return pickupManager.CheckForPickUp(tilePosition, PieceIndex);
                 }
                 else
                 {
@@ -139,22 +139,6 @@ public class Board : MonoBehaviour
 
         // Movement Is Valid
         return true;
-    }
-
-    public bool CheckForPickUp(Vector3Int tilePosition)
-    {
-        // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
-        TileBase tileBase = tilemap.GetTile(tilePosition);
-        switch (tileBase.name)
-        {
-            case "Yellow": // Banana Tile
-                tilemap.SetTile(tilePosition, null);
-                gameManager.BananaCollected(PieceIndex);
-                return true;
-
-            default: // Normal Tile
-                return false;
-        }
     }
 
     //public void ClearLines()

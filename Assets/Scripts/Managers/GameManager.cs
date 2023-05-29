@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public void GameOver(int PlayerNumber)
     {
         UIManager.GameOver(PlayerNumber);
+        pickupManager.StartGame();
     }
 
     public void PlayerChange(int PlayerNumber)
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour
         if (bananaAmount <= 0)
         {
             // If All Bananas Are Collected Then Spawn Some More
-            pickupManager.SpawnPickups();
+            pickupManager.SpawnBananas();
         }
     }
 }

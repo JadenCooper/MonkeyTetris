@@ -1,29 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PickupManager : MonoBehaviour
 {
     public PickupData[] pickups;
+    public GameObject BananaHolder;
+    public List<GameObject> BananaList = new List<GameObject>();
     public GameManager gameManager;
     public Board gameBoard;
+    public List<Tile> BananaRipenessTiles = new List<Tile>();
     private BoardSizeSO boardSizeData;
 
     private void Start()
     {
         boardSizeData = gameBoard.boardSizeData;
     }
-    public void SpawnPickups()
+
+    public void StartGame()
+    {
+        SpawnBananas();
+        SpawnPickups();
+    }
+    public void SpawnBananas()
     {
         int bananaAmount = Random.Range(1, 4);
         for (int i = 0; i < bananaAmount; i++)
         {
-            SpawnPickup();
+            BananaList.Add(Instantiate(BananaHolder));
+            BananaList[i].GetComponent<Banana>().Setup(this, SpawnPickup());
         }
         gameManager.bananaAmount = bananaAmount;
     }
+    public void SpawnPickups()
+    {
+        // Normal Pickups Will Go Here
+    }
 
-    public void SpawnPickup()
+    public Vector3Int SpawnPickup()
     {
         Pickup pickup = new();
         PickupData data = pickups[Random.Range(0, pickups.Length)];
@@ -42,6 +57,43 @@ public class PickupManager : MonoBehaviour
         {
             Vector3Int tilePosition = pickup.cells[cell] + pickup.position;
             gameBoard.tilemap.SetTile(tilePosition, pickup.data.tile);
+        }
+
+        return pickup.position;
+    }
+
+    public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex)
+    {
+        // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
+        TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
+        switch (tileBase.name)
+        {
+            case "Yellow": // Banana Tile
+                RemoveBanana(tilePosition);
+                gameBoard.tilemap.SetTile(tilePosition, null);
+                gameManager.BananaCollected(PieceIndex);
+                return true;
+
+            default: // Normal Tile
+                return false;
+        }
+    }
+
+    public void ChangeBananaTile(int RipenessIndex, Vector3Int Position)
+    {
+
+    }
+
+    private void RemoveBanana(Vector3Int Position)
+    {
+        for (int i = 0; i < BananaList.Count; i++)
+        {
+            if (BananaList[i].GetComponent<Banana>().Position == Position)
+            {
+                // This Is The Correct Holder
+                Destroy(BananaList[i]);
+                BananaList.RemoveAt(i);
+            }
         }
     }
 }
