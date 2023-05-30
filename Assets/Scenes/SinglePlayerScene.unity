@@ -700,7 +700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickups:
   - pickUp: 0
-    tile: {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
+    tile: {fileID: 11400000, guid: 36abf45612a45204b8580f1d81ed802e, type: 2}
     cells:
     - {x: 0, y: 0}
   BananaHolder: {fileID: 5317975421189223614, guid: a599d6c8f1d10414bbc20738b6c4eba8, type: 3}
@@ -708,9 +708,11 @@ MonoBehaviour:
   gameManager: {fileID: 1956594307}
   gameBoard: {fileID: 264470866}
   BananaRipenessTiles:
-  - {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
-  - {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
-  - {fileID: 11400000, guid: b0c4b75a3c56f2d44991f06d94565e50, type: 2}
+  - {fileID: 11400000, guid: 36abf45612a45204b8580f1d81ed802e, type: 2}
+  - {fileID: 11400000, guid: cbe7239d91d7917429518906b3a76422, type: 2}
+  - {fileID: 11400000, guid: 62aee3ff9e050bf47a60b150d60835d3, type: 2}
+  boardSizeData: {fileID: 11400000, guid: b6c1767adb548ee4cb0246685a24ed37, type: 2}
+  BananaAmount: 0
 --- !u!1 &2035761369
 GameObject:
   m_ObjectHideFlags: 0

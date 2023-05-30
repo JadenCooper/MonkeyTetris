@@ -12,9 +12,9 @@ public class Banana : MonoBehaviour
     {
         this.pickupManager = pickupManager;
         this.Position = Position;
-        RipenessTimes[0] = 10;
-        RipenessTimes[1] = 15;
-        RipenessTimes[2] = 5;
+        RipenessTimes[0] = Random.Range(8, 12);
+        RipenessTimes[1] = Random.Range(14, 18);
+        RipenessTimes[2] = Random.Range(4, 8);
         StartCoroutine(RipenessTimer());
     }
 

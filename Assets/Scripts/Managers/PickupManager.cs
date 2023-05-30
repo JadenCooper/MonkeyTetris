@@ -11,12 +11,8 @@ public class PickupManager : MonoBehaviour
     public GameManager gameManager;
     public Board gameBoard;
     public List<Tile> BananaRipenessTiles = new List<Tile>();
-    private BoardSizeSO boardSizeData;
-
-    private void Start()
-    {
-        boardSizeData = gameBoard.boardSizeData;
-    }
+    public BoardSizeSO boardSizeData;
+    public int BananaAmount;
 
     public void StartGame()
     {
@@ -25,13 +21,13 @@ public class PickupManager : MonoBehaviour
     }
     public void SpawnBananas()
     {
-        int bananaAmount = Random.Range(1, 4);
-        for (int i = 0; i < bananaAmount; i++)
+        BananaAmount = Random.Range(1, 4);
+        for (int i = 0; i < BananaAmount; i++)
         {
             BananaList.Add(Instantiate(BananaHolder));
             BananaList[i].GetComponent<Banana>().Setup(this, SpawnPickup());
         }
-        gameManager.bananaAmount = bananaAmount;
+        gameManager.bananaAmount = BananaAmount;
     }
     public void SpawnPickups()
     {
@@ -95,6 +91,11 @@ public class PickupManager : MonoBehaviour
                 // This Is The Correct Holder
                 Destroy(BananaList[i]);
                 BananaList.RemoveAt(i);
+                BananaAmount--;
+                if (BananaAmount <= 0)
+                {
+                    SpawnBananas();
+                }
                 gameBoard.tilemap.SetTile(Position, null);
             }
         }

@@ -203,8 +203,8 @@ public class Board : MonoBehaviour
         for (int i = 0; i < obstacleCount; i++)
         {
             // Generate a random position within the board bounds
-            int x = Random.Range(0, boardSize.x) - boardSize.x/2;
-            int y = Random.Range(0, boardSize.y) - boardSize.y/2;
+            int x = Random.Range(0, boardSize.x) - boardSize.x / 2;
+            int y = Random.Range(0, boardSize.y) - boardSize.y / 2;
 
             // Generate a random number between 0 and the number of obstacle tiles
             int randomIndex = Random.Range(0, obstacleTiles.Length);
