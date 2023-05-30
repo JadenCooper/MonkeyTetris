@@ -26,6 +26,7 @@ public class Banana : MonoBehaviour
         {
             // Banana Is Still Valid
             Debug.Log("Ripeness Stage " + RipenessIndex);
+            pickupManager.ChangeBananaTile(RipenessIndex, Position);
             StartCoroutine(RipenessTimer());
         }
         else

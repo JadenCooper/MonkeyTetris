@@ -76,7 +76,7 @@ public class PickupManager : MonoBehaviour
 
     public void ChangeBananaTile(int RipenessIndex, Vector3Int Position)
     {
-        if (gameBoard.tilemap.GetTile(Position).name == "Yellow")
+        if (gameBoard.tilemap.GetTile(Position).name.Contains("Yellow"))
         {
             gameBoard.tilemap.SetTile(Position, BananaRipenessTiles[RipenessIndex]);
         }
