@@ -243,25 +243,46 @@ public class Board : MonoBehaviour
 
     private void SpawnRandomObstacles()
     {
-        int obstacleCount = Random.Range(3, 6); // Randomly choose the number of obstacles to spawn (between 3 and 5)
+        int[] heightMap = new int[boardSize.x]; //Declare empty heightmap (Array of Ints)
 
-        for (int i = 0; i < obstacleCount; i++)
+        int currVal = Random.Range(0,4); //Starting elevation
+
+        heightMap[0] = (currVal);
+
+        for (int i = 1; i < boardSize.x; i++) //Generate Heightmap based on boardwidth
+        {
+            int rng = Random.Range(0,4); //Odds for changing elevatino on each step.
+            //25% Increase, 25% Decrease, 50% Stay Same
+            switch(rng)
+            {
+                case 0:
+                    currVal++;
+                    break;
+                case 1:
+                    currVal--;
+                    break;
+                default:
+                    break;
+            }
+            currVal = Mathf.Clamp(currVal, 0, (boardSize.y / 3)); //Clamp heightmap val between zero and a third up the board.
+            heightMap[i] = (currVal); //Commit the value to heightmap.
+        }
+
+        for (int i = 0; i < boardSize.x; i++) //For the width of our board...
         {
-            // Generate a random position within the board bounds
-            int x = Random.Range(0, boardSize.x) - boardSize.x/2;
-            int y = Random.Range(0, boardSize.y) - boardSize.y/2;
-
-            // Generate a random number between 0 and the number of obstacle tiles
-            int randomIndex = Random.Range(0, obstacleTiles.Length);
-
-            // Get the random obstacle tile from the tile palette
-            TileBase obstacleTile = obstacleTiles[randomIndex];
-
-            // If the obstacle tile exists, spawn it at the randomly chosen position
-            if (obstacleTile != null)
+            for (int j = 0; j < heightMap[i]; j++) //And for how high each row is...
             {
-                Vector3Int tilePosition = new Vector3Int(x, y, 0);
-                tilemap.SetTile(tilePosition, obstacleTile);
+                //Place an obstacle tile at the right position.
+
+                TileBase obstacleTile = obstacleTiles[Random.Range(0, obstacleTiles.Length)];
+
+                if (obstacleTile != null)
+                {
+                    int x = i - boardSize.x/2;
+                    int y = j - boardSize.y/2;
+                    Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                    tilemap.SetTile(tilePosition, obstacleTile);
+                }
             }
         }
     }
