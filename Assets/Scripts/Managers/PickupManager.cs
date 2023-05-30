@@ -62,15 +62,17 @@ public class PickupManager : MonoBehaviour
     {
         // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
         TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
-        switch (tileBase.name)
+        if (tileBase.name.Contains("Yellow"))
         {
-            case "Yellow": // Banana Tile
-                RemoveBanana(tilePosition);
-                gameManager.BananaCollected(PieceIndex);
-                return true;
-
-            default: // Normal Tile
-                return false;
+            // Banana Tile
+            RemoveBanana(tilePosition);
+            gameManager.BananaCollected(PieceIndex);
+            return true;
+        }
+        else
+        {
+            // Normal Tile
+            return false;
         }
     }
 
