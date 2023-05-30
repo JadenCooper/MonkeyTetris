@@ -97,9 +97,10 @@ public class Piece : MonoBehaviour
 
     private void Lock()
     {
+
         Debug.Log("Lock");
         board.Set(this);
-        locked = true;
+        board.IsValidPosition(cells, position, true, true);
         //board.ClearLines();
         board.SpawnPiece();
         
@@ -126,7 +127,7 @@ public class Piece : MonoBehaviour
         newPosition.x += translation.x;
         newPosition.y += translation.y;
 
-        if (board.IsValidPosition(cells, newPosition, true))
+        if (board.IsValidPosition(cells, newPosition, true, false))
         {
             position = newPosition;
             lockTime = 0f;

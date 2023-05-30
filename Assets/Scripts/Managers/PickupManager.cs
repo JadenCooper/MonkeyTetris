@@ -13,11 +13,25 @@ public class PickupManager : MonoBehaviour
     public List<Tile> BananaRipenessTiles = new List<Tile>();
     public BoardSizeSO boardSizeData;
     public int BananaAmount;
+    public List<GameObject> PickedBananas = new List<GameObject>();
 
     public void StartGame()
     {
         SpawnBananas();
         SpawnPickups();
+    }
+    private void Update()
+    {
+        if(PickedBananas.Count > 0){
+            for(int i = 0; i < PickedBananas.Count; i++){
+                if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false)){
+                    gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
+                    PickedBananas.RemoveAt(i);
+                    Debug.Log("Banana Placed");
+                }
+            }
+            
+        }
     }
     public void SpawnBananas()
     {
@@ -46,7 +60,7 @@ public class PickupManager : MonoBehaviour
                 Random.Range(boardSizeData.pickupYRange.x, boardSizeData.pickupYRange.y), 0);
             pickup.Initialize(pickupSpawn, data);
 
-            FreePosition = gameBoard.IsValidPosition(pickup.cells, pickupSpawn, false); // Checks If Pickup Position Is Free
+            FreePosition = gameBoard.IsValidPosition(pickup.cells, pickupSpawn, false, false); // Checks If Pickup Position Is Free
         } while (!FreePosition);
 
         for (int cell = 0; cell < pickup.cells.Length; cell++)
@@ -58,16 +72,36 @@ public class PickupManager : MonoBehaviour
         return pickup.position;
     }
 
-    public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex)
+    public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex, bool pieceLocked)
     {
         // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
         TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
         if (tileBase.name.Contains("Yellow"))
         {
             // Banana Tile
-            RemoveBanana(tilePosition);
-            gameManager.BananaCollected(PieceIndex);
+            if(pieceLocked){
+                for(int i = 0; i < PickedBananas.Count; i++){
+                    if(PickedBananas[i].GetComponent<Banana>().Position == tilePosition){
+                        PickedBananas.RemoveAt(i);
+                        Debug.Log(PickedBananas.Count);
+                    }
+                }
+                RemoveBanana(tilePosition);
+                gameManager.BananaCollected(PieceIndex);
+
+                Debug.Log("Banana Collected");
+            }else{
+                for(int i = 0; i < BananaList.Count; i++){
+                    if(BananaList[i].GetComponent<Banana>().Position == tilePosition){
+                        PickedBananas.Add(BananaList[i]);
+                        Debug.Log(PickedBananas.Count);
+                    }
+                }
+                Debug.Log("Banana Picked");
+                // GetBananaHolder(tilePosition)
+            }
             return true;
+            
         }
         else
         {

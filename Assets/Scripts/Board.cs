@@ -77,7 +77,7 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
-        if (!IsValidPosition(activePiece.cells, spawnPosition, true))
+        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false))
         {
             GameOver();
             SpawnPiece(); // Makes Winner Start The Next Round
@@ -112,7 +112,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup)
+    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked)
     {
         // Checks If All Cells Would Be Valid After Move
         for (int i = 0; i < cells.Length; i++)
@@ -130,7 +130,7 @@ public class Board : MonoBehaviour
                 // Checks If Tile Already Present If So Cant Move There, Therefore False Unless Its A Pickup
                 if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
-                    return pickupManager.CheckForPickUp(tilePosition, PieceIndex);
+                    return pickupManager.CheckForPickUp(tilePosition, PieceIndex, pieceLocked);
                 }
                 else
                 {
@@ -143,32 +143,6 @@ public class Board : MonoBehaviour
         return true;
     }
 
-<<<<<<< HEAD
-    public bool CheckForPickUp(Vector3Int tilePosition)
-    {
-        // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
-        TileBase tileBase = tilemap.GetTile(tilePosition);
-        switch (tileBase.name)
-        {
-            case "Yellow": // Banana Tile
-                
-                if(activePiece.locked){
-                    Debug.Log("here");
-                    tilemap.SetTile(tilePosition, null);
-                    gameManager.BananaCollected(PieceIndex);
-                    return true;
-                }else{
-                    return false;
-                }
-                
-
-            default: // Normal Tile
-                return false;
-        }
-    }
-
-=======
->>>>>>> 7ae7080bbbbec873225712be70f216e6edc75551
     //public void ClearLines()
     //{
     //    int row = Bounds.yMin;
