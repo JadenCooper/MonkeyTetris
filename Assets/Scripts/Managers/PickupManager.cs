@@ -10,9 +10,9 @@ public class PickupManager : MonoBehaviour
     public List<GameObject> BananaList = new List<GameObject>();
     public GameManager gameManager;
     public Board gameBoard;
-    public List<Tile> BananaRipenessTiles = new List<Tile>();
-    public BoardSizeSO boardSizeData;
-    public int BananaAmount;
+    public List<Tile> BananaRipenessTiles = new List<Tile>(); // ScriptableObject for storing board size data
+    public BoardSizeSO boardSizeData; // ScriptableObject for storing board size data
+    public int BananaAmount; // Number of bananas to spawn and how many are on the board
 
     public void StartGame()
     {
@@ -21,6 +21,7 @@ public class PickupManager : MonoBehaviour
     }
     public void SpawnBananas()
     {
+        // Spawn bananas on the game board
         BananaAmount = Random.Range(1, 4);
         for (int i = 0; i < BananaAmount; i++)
         {
@@ -31,6 +32,7 @@ public class PickupManager : MonoBehaviour
     }
     public void SpawnPickups()
     {
+        // Spawn other pickups on the game board
         // Normal Pickups Will Go Here
     }
 
@@ -41,6 +43,7 @@ public class PickupManager : MonoBehaviour
         bool FreePosition = true;
         do
         {
+            // Randomly select a position for the pickup within the specified ranges
             // -5 X  Left 4 X Right  9 Y Top -10 Y Bottom For Default 10/20 Board
             Vector3Int pickupSpawn = new Vector3Int(Random.Range(boardSizeData.pickupXRange.x, boardSizeData.pickupXRange.y),
                 Random.Range(boardSizeData.pickupYRange.x, boardSizeData.pickupYRange.y), 0);
@@ -51,6 +54,7 @@ public class PickupManager : MonoBehaviour
 
         for (int cell = 0; cell < pickup.cells.Length; cell++)
         {
+            // Place the pickup on the game board
             Vector3Int tilePosition = pickup.cells[cell] + pickup.position;
             gameBoard.tilemap.SetTile(tilePosition, pickup.data.tile);
         }
@@ -60,13 +64,14 @@ public class PickupManager : MonoBehaviour
 
     public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex)
     {
-        // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
+        // Check if a tile contains a pickup and trigger its effect
         TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
         if (tileBase.name.Contains("Yellow"))
         {
             // Banana Tile
+            Banana banana = GetBanana(tilePosition);
+            gameManager.BananaCollected(PieceIndex, banana.Score[banana.RipenessIndex]);
             RemoveBanana(tilePosition);
-            gameManager.BananaCollected(PieceIndex);
             return true;
         }
         else
@@ -76,8 +81,22 @@ public class PickupManager : MonoBehaviour
         }
     }
 
+    private Banana GetBanana(Vector3Int tilePosition)
+    {
+        // Get the banana at the specified tile position
+        for (int i = 0; i < BananaList.Count; i++)
+        {
+            if (BananaList[i].GetComponent<Banana>().Position == tilePosition)
+            {
+                return BananaList[i].GetComponent<Banana>();
+            }
+        }
+
+        return null;
+    }
     public void ChangeBananaTile(int RipenessIndex, Vector3Int Position)
     {
+        // Change the tile of a banana based on its ripeness index
         if (gameBoard.tilemap.GetTile(Position).name.Contains("Yellow"))
         {
             gameBoard.tilemap.SetTile(Position, BananaRipenessTiles[RipenessIndex]);
@@ -86,6 +105,7 @@ public class PickupManager : MonoBehaviour
 
     public void RemoveBanana(Vector3Int Position)
     {
+        // Remove a banana from the game board and the BananaList
         for (int i = 0; i < BananaList.Count; i++)
         {
             if (BananaList[i].GetComponent<Banana>().Position == Position)
