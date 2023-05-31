@@ -27,7 +27,6 @@ public class PickupManager : MonoBehaviour
                 if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false)){
                     gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
                     PickedBananas.RemoveAt(i);
-                    Debug.Log("Banana Placed");
                 }
             }
             
@@ -83,21 +82,17 @@ public class PickupManager : MonoBehaviour
                 for(int i = 0; i < PickedBananas.Count; i++){
                     if(PickedBananas[i].GetComponent<Banana>().Position == tilePosition){
                         PickedBananas.RemoveAt(i);
-                        Debug.Log(PickedBananas.Count);
                     }
                 }
                 RemoveBanana(tilePosition);
                 gameManager.BananaCollected(PieceIndex);
 
-                Debug.Log("Banana Collected");
             }else{
                 for(int i = 0; i < BananaList.Count; i++){
                     if(BananaList[i].GetComponent<Banana>().Position == tilePosition){
                         PickedBananas.Add(BananaList[i]);
-                        Debug.Log(PickedBananas.Count);
                     }
                 }
-                Debug.Log("Banana Picked");
                 // GetBananaHolder(tilePosition)
             }
             return true;

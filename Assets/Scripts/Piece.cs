@@ -98,9 +98,8 @@ public class Piece : MonoBehaviour
     private void Lock()
     {
 
-        Debug.Log("Lock");
-        board.Set(this);
         board.IsValidPosition(cells, position, true, true);
+        board.Set(this);
         //board.ClearLines();
         board.SpawnPiece();
         
