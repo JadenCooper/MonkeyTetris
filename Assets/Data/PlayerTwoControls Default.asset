@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12df57e4cd230024c9559639d11db0ce, type: 3}
-  m_Name: PlayerTwoControls
+  m_Name: PlayerTwoControls Default
   m_EditorClassIdentifier: 
   MoveLeft: 276
   MoveRight: 275
