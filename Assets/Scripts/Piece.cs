@@ -38,17 +38,11 @@ public class Piece : MonoBehaviour
     {
         board.Clear(this);
         lockTime += Time.deltaTime;
-        if (Input.GetKeyDown(pieceControls.RotateLeft))
+        if (Input.GetKeyDown(pieceControls.Rotate))
         {
-            // Rotate Left
+            // Rotate
             Rotate(-1);
         }
-        else if(Input.GetKeyDown(pieceControls.RotateRight))
-        {
-            // Rotate Right
-            Rotate(1);
-        }
-
         if (Input.GetKeyDown(pieceControls.MoveLeft))
         {
             Move(Vector2Int.left);
