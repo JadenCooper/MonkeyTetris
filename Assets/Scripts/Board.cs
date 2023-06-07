@@ -68,6 +68,15 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece()
     {
+        
+        if(pickupManager.PickedBananas.Count > 0){
+            for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
+                gameManager.BananaCollected(PieceIndex);
+                Vector3Int position = pickupManager.PickedBananas[i].GetComponent<Banana>().Position;
+                pickupManager.PickedBananas.RemoveAt(i);
+                pickupManager.RemoveBanana(position, false);
+            }
+        };
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         PieceIndex++;
         PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);

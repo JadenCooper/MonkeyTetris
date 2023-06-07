@@ -73,29 +73,20 @@ public class PickupManager : MonoBehaviour
 
     public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex, bool pieceLocked)
     {
+        Debug.Log("here");
         // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
         TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
         if (tileBase.name.Contains("Yellow"))
         {
             // Banana Tile
-            if(pieceLocked){
-                for(int i = 0; i < PickedBananas.Count; i++){
-                    if(PickedBananas[i].GetComponent<Banana>().Position == tilePosition){
-                        PickedBananas.RemoveAt(i);
-                    }
-                }
-                RemoveBanana(tilePosition);
-                gameManager.BananaCollected(PieceIndex);
-
-            }else{
+            
                 for(int i = 0; i < BananaList.Count; i++){
                     if(BananaList[i].GetComponent<Banana>().Position == tilePosition){
                         PickedBananas.Add(BananaList[i]);
                     }
                 }
                 // GetBananaHolder(tilePosition)
-            }
-            return true;
+         return true;
             
         }
         else
@@ -113,7 +104,7 @@ public class PickupManager : MonoBehaviour
         }
     }
 
-    public void RemoveBanana(Vector3Int Position)
+    public void RemoveBanana(Vector3Int Position, bool rotten)
     {
         for (int i = 0; i < BananaList.Count; i++)
         {
@@ -127,7 +118,10 @@ public class PickupManager : MonoBehaviour
                 {
                     SpawnBananas();
                 }
-                gameBoard.tilemap.SetTile(Position, null);
+                if(rotten){
+                    gameBoard.tilemap.SetTile(Position, null);
+                }
+                
             }
         }
     }
