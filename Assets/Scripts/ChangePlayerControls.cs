@@ -18,10 +18,6 @@ public class ChangePlayerControls : MonoBehaviour
     // List of default player control configurations
     public List<PlayerControls> playerControlsDefaults = new List<PlayerControls>();
 
-    // Reference to the main canvas text boxes for player controls
-    public TMP_Text playerOneControlsText;
-    public TMP_Text playerTwoControlsText;
-
     private bool listening = false; // Flag to indicate if listening for key input
     private int ControlIndex; // Index of the selected control
     private void Update()
