@@ -24,8 +24,11 @@ public class PickupManager : MonoBehaviour
     {
         if(PickedBananas.Count > 0){
             for(int i = 0; i < PickedBananas.Count; i++){
+                // Check if the position of the current PickedBanana is valid on the game board
                 if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false)){
+                    // Set the tile at the current PickedBanana's position on the tilemap
                     gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
+                    // Remove the current PickedBanana from the PickedBananas list
                     PickedBananas.RemoveAt(i);
                 }
             }
@@ -71,6 +74,10 @@ public class PickupManager : MonoBehaviour
         return pickup.position;
     }
 
+
+    // Check if the tile at the given tilePosition is a pickup tile
+    // If it is a yellow banana tile, find and add matching bananas to the PickedBananas list
+    // Return true if the tile is a pickup tile, false otherwise
     public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex, bool pieceLocked)
     {
         Debug.Log("here");
@@ -79,14 +86,14 @@ public class PickupManager : MonoBehaviour
         if (tileBase.name.Contains("Yellow"))
         {
             // Banana Tile
-            
-                for(int i = 0; i < BananaList.Count; i++){
-                    if(BananaList[i].GetComponent<Banana>().Position == tilePosition){
-                        PickedBananas.Add(BananaList[i]);
-                    }
+            // Iterate through the BananaList and check if each banana's position matches the given tilePosition
+            // If a match is found, add the banana to the PickedBananas list
+            for(int i = 0; i < BananaList.Count; i++){
+                if(BananaList[i].GetComponent<Banana>().Position == tilePosition){
+                    PickedBananas.Add(BananaList[i]);
                 }
-                // GetBananaHolder(tilePosition)
-         return true;
+            }
+            return true;
             
         }
         else

@@ -89,10 +89,10 @@ public class Piece : MonoBehaviour
 
         Move(Vector2Int.down);
 
-        if (lockTime >= lockDelay)
-        {
-            Lock();
-        }
+        // if (lockTime >= lockDelay)
+        // {
+        //     Lock();
+        // }
     }
 
     private void Lock()

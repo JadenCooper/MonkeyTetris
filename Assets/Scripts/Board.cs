@@ -68,12 +68,18 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece()
     {
-        
+        // Check if there are picked bananas in the PickedBananas list
         if(pickupManager.PickedBananas.Count > 0){
+            // Iterate through the PickedBananas list
+            // Perform actions for each picked banana
             for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
+                // Notify the gameManager that a banana with the specified PieceIndex has been collected
                 gameManager.BananaCollected(PieceIndex);
+                // Get the position of the current picked banana
                 Vector3Int position = pickupManager.PickedBananas[i].GetComponent<Banana>().Position;
+                // Remove the current picked banana from the PickedBananas list
                 pickupManager.PickedBananas.RemoveAt(i);
+                // Remove the banana from the pickupManager using the obtained position
                 pickupManager.RemoveBanana(position, false);
             }
         };
