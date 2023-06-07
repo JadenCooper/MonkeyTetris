@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 421149944}
   - component: {fileID: 421149943}
   m_Layer: 5
-  m_Name: 'Player2Controls '
+  m_Name: Player2ControlsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 859826519}
   - component: {fileID: 859826518}
   m_Layer: 5
-  m_Name: 'Player1Controls '
+  m_Name: 'Player1ControlsText '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -543,7 +543,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -958,8 +958,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activePlayerText: {fileID: 2035761371}
   LostPlayerText: {fileID: 1642133180}
-  Player1Controls: {fileID: 0}
-  Player2Control: {fileID: 0}
+  Player1ControlsText: {fileID: 859826518}
+  Player2ControlText: {fileID: 421149943}
+  player1Controls: {fileID: 11400000, guid: 3b13641ae11a40b47ab82ab71b72d140, type: 2}
+  player2Controls: {fileID: 11400000, guid: 61b50d7d13ebc4d43b14858ae638dc70, type: 2}
 --- !u!1 &2035761369
 GameObject:
   m_ObjectHideFlags: 0
