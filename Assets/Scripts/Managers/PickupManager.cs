@@ -10,14 +10,32 @@ public class PickupManager : MonoBehaviour
     public List<GameObject> BananaList = new List<GameObject>();
     public GameManager gameManager;
     public Board gameBoard;
-    public List<Tile> BananaRipenessTiles = new List<Tile>(); // ScriptableObject for storing board size data
-    public BoardSizeSO boardSizeData; // ScriptableObject for storing board size data
-    public int BananaAmount; // Number of bananas to spawn and how many are on the board
+
+    public List<Tile> BananaRipenessTiles = new List<Tile>();// ScriptableObject for storing board size data
+    public BoardSizeSO boardSizeData;// ScriptableObject for storing board size data
+    public int BananaAmount;// Number of bananas to spawn and how many are on the board
+    public List<GameObject> PickedBananas = new List<GameObject>();
+
 
     public void StartGame()
     {
         SpawnBananas();
         SpawnPickups();
+    }
+    private void Update()
+    {
+        if(PickedBananas.Count > 0){
+            for(int i = 0; i < PickedBananas.Count; i++){
+                // Check if the position of the current PickedBanana is valid on the game board
+                if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false)){
+                    // Set the tile at the current PickedBanana's position on the tilemap
+                    gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
+                    // Remove the current PickedBanana from the PickedBananas list
+                    PickedBananas.RemoveAt(i);
+                }
+            }
+            
+        }
     }
     public void SpawnBananas()
     {
@@ -49,7 +67,7 @@ public class PickupManager : MonoBehaviour
                 Random.Range(boardSizeData.pickupYRange.x, boardSizeData.pickupYRange.y), 0);
             pickup.Initialize(pickupSpawn, data);
 
-            FreePosition = gameBoard.IsValidPosition(pickup.cells, pickupSpawn, false); // Checks If Pickup Position Is Free
+            FreePosition = gameBoard.IsValidPosition(pickup.cells, pickupSpawn, false, false); // Checks If Pickup Position Is Free
         } while (!FreePosition);
 
         for (int cell = 0; cell < pickup.cells.Length; cell++)
@@ -62,17 +80,27 @@ public class PickupManager : MonoBehaviour
         return pickup.position;
     }
 
-    public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex)
+
+    // Check if the tile at the given tilePosition is a pickup tile
+    // If it is a yellow banana tile, find and add matching bananas to the PickedBananas list
+    // Return true if the tile is a pickup tile, false otherwise
+    public bool CheckForPickUp(Vector3Int tilePosition, int PieceIndex, bool pieceLocked)
     {
-        // Check if a tile contains a pickup and trigger its effect
+
         TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
         if (tileBase.name.Contains("Yellow"))
         {
             // Banana Tile
-            Banana banana = GetBanana(tilePosition);
-            gameManager.BananaCollected(PieceIndex, banana.Score[banana.RipenessIndex]);
-            RemoveBanana(tilePosition);
+            // Iterate through the BananaList and check if each banana's position matches the given tilePosition
+            // If a match is found, add the banana to the PickedBananas list
+            for(int i = 0; i < BananaList.Count; i++){
+                if(BananaList[i].GetComponent<Banana>().Position == tilePosition){
+                    PickedBananas.Add(BananaList[i]);
+                }
+            }
+
             return true;
+            
         }
         else
         {
@@ -103,7 +131,7 @@ public class PickupManager : MonoBehaviour
         }
     }
 
-    public void RemoveBanana(Vector3Int Position)
+    public void RemoveBanana(Vector3Int Position, bool rotten)
     {
         // Remove a banana from the game board and the BananaList
         for (int i = 0; i < BananaList.Count; i++)
@@ -118,7 +146,10 @@ public class PickupManager : MonoBehaviour
                 {
                     SpawnBananas();
                 }
-                gameBoard.tilemap.SetTile(Position, null);
+                if(rotten){
+                    gameBoard.tilemap.SetTile(Position, null);
+                }
+                
             }
         }
     }

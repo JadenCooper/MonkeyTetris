@@ -14,6 +14,8 @@ public class Board : MonoBehaviour
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
 
+    private bool locked = false;
+
     public SpriteRenderer grid;
     public Transform border;
     public Ghost ghost;
@@ -66,6 +68,21 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece()
     {
+        // Check if there are picked bananas in the PickedBananas list
+        if(pickupManager.PickedBananas.Count > 0){
+            // Iterate through the PickedBananas list
+            // Perform actions for each picked banana
+            for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
+                // Notify the gameManager that a banana with the specified PieceIndex has been collected
+                gameManager.BananaCollected(PieceIndex);
+                // Get the position of the current picked banana
+                Vector3Int position = pickupManager.PickedBananas[i].GetComponent<Banana>().Position;
+                // Remove the current picked banana from the PickedBananas list
+                pickupManager.PickedBananas.RemoveAt(i);
+                // Remove the banana from the pickupManager using the obtained position
+                pickupManager.RemoveBanana(position, false);
+            }
+        };
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         PieceIndex++;
         PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
@@ -75,7 +92,7 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
-        if (!IsValidPosition(activePiece.cells, spawnPosition, true))
+        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false))
         {
             GameOver();
             SpawnPiece(); // Makes Winner Start The Next Round
@@ -110,7 +127,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup)
+    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked)
     {
         // Checks If All Cells Would Be Valid After Move
         for (int i = 0; i < cells.Length; i++)
@@ -128,7 +145,7 @@ public class Board : MonoBehaviour
                 // Checks If Tile Already Present If So Cant Move There, Therefore False Unless Its A Pickup
                 if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
-                    return pickupManager.CheckForPickUp(tilePosition, PieceIndex);
+                    return pickupManager.CheckForPickUp(tilePosition, PieceIndex, pieceLocked);
                 }
                 else
                 {

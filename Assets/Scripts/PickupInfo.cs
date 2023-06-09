@@ -12,7 +12,7 @@ public struct PickupData
 {
     public PickupType pickUp;
     public Tile tile;
-    public Vector2Int[] cells;
+    public Vector3Int[] cells;
     public void Initalize()
     {
         this.cells = Data.Pickups[pickUp];

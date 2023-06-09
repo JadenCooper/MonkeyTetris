@@ -378,6 +378,7 @@ MonoBehaviour:
   cells: []
   pieceControls: {fileID: 0}
   rotationIndex: 0
+  locked: 0
   stepDelay: 1
   lockDelay: 0.5
 --- !u!4 &1217649785 stripped

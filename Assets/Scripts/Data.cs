@@ -23,9 +23,9 @@ public static class Data
     //     { Tetromino.Z, new Vector2Int[] { new Vector2Int( 0, 1), new Vector2Int(-1, 0), new Vector2Int( -1, 1) } },
    };
 
-    public static readonly Dictionary<PickupType, Vector2Int[]> Pickups = new Dictionary<PickupType, Vector2Int[]>()
+    public static readonly Dictionary<PickupType, Vector3Int[]> Pickups = new Dictionary<PickupType, Vector3Int[]>()
     {
-        { PickupType.B, new Vector2Int[] {new Vector2Int( 0, 0) } },
+        { PickupType.B, new Vector3Int[] {new Vector3Int( 0, 0, 0) } },
    };
 
     //private static readonly Vector2Int[,] WallKicksI = new Vector2Int[,] {

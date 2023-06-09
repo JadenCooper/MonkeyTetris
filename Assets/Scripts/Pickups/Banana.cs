@@ -40,7 +40,8 @@ public class Banana : MonoBehaviour
         {
             // Banana Is Rotten So Remove
             Debug.Log("Banana Is Rotten");
-            pickupManager.RemoveBanana(Position);
+            // pickupManager.PickedBananas.RemoveAt(Position)
+            pickupManager.RemoveBanana(Position, true);
         }
     }
 
