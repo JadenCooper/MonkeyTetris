@@ -81,6 +81,7 @@ public class Board : MonoBehaviour
                 pickupManager.PickedBananas.RemoveAt(i);
                 // Remove the banana from the pickupManager using the obtained position
                 pickupManager.RemoveBanana(position, false);
+                // line/lines clear when banana is collected
                 LineClear(Bounds.yMin);
             }
         };
@@ -194,6 +195,7 @@ public class Board : MonoBehaviour
 {
     int rowsAffected = Random.Range(1, 4); // Generate a random number between 1 and 3 (inclusive)
     Debug.Log(rowsAffected);
+    //deletes the amount of rows from the random number
     for (int i = 0; i < rowsAffected; i++)
     {
         for (int col = Bounds.xMin; col < Bounds.xMax; col++)
