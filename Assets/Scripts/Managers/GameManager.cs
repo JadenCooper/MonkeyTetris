@@ -25,18 +25,18 @@ public class GameManager : MonoBehaviour
         UIManager.PlayerChange(PlayerNumber);
     }
 
-    public void BananaCollected(int PlayerIndex, int ScoreChange)
+    public void BananaCollected(int PlayerIndex)
     {
         // Player Currently Gets 1 Score Per Banana
         if (PlayerIndex == 0)
         {
             //Player One
-            Score.x += ScoreChange;
+            Score.x++;
         }
         else
         {
             //Player Two
-            Score.y += ScoreChange;
+            Score.y++;
         }
         Debug.Log("Score Now Stands At Player One: " + Score.x + " Player Two: " + Score.y);
         bananaAmount--;
