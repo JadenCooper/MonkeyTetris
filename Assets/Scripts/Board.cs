@@ -191,12 +191,17 @@ public class Board : MonoBehaviour
     }
 
     private void LineClear(int row)
+{
+    int rowsAffected = Random.Range(1, 4); // Generate a random number between 1 and 3 (inclusive)
+    Debug.Log(rowsAffected);
+    for (int i = 0; i < rowsAffected; i++)
     {
         for (int col = Bounds.xMin; col < Bounds.xMax; col++)
         {
             Vector3Int position = new Vector3Int(col, row, 0);
             tilemap.SetTile(position, null);
         }
+    }
 
         while (row < Bounds.yMax)
         {
@@ -211,7 +216,8 @@ public class Board : MonoBehaviour
 
             row++;
         }
-    }
+}
+
 
 
     private void SpawnRandomObstacles()
