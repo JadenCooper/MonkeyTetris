@@ -81,6 +81,7 @@ public class Board : MonoBehaviour
                 pickupManager.PickedBananas.RemoveAt(i);
                 // Remove the banana from the pickupManager using the obtained position
                 pickupManager.RemoveBanana(position, false);
+                LineClear(Bounds.yMin);
             }
         };
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
