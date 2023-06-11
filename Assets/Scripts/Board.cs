@@ -73,10 +73,11 @@ public class Board : MonoBehaviour
             // Iterate through the PickedBananas list
             // Perform actions for each picked banana
             for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
+                Banana BananaToBeRemoved = pickupManager.PickedBananas[i].GetComponent<Banana>();
                 // Notify the gameManager that a banana with the specified PieceIndex has been collected
-                gameManager.BananaCollected(PieceIndex);
+                gameManager.BananaCollected(PieceIndex, BananaToBeRemoved.Score[BananaToBeRemoved.RipenessIndex]);
                 // Get the position of the current picked banana
-                Vector3Int position = pickupManager.PickedBananas[i].GetComponent<Banana>().Position;
+                Vector3Int position = BananaToBeRemoved.Position;
                 // Remove the current picked banana from the PickedBananas list
                 pickupManager.PickedBananas.RemoveAt(i);
                 // Remove the banana from the pickupManager using the obtained position
