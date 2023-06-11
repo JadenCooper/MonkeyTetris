@@ -121,19 +121,16 @@ public class Board : MonoBehaviour
 
         if (!IsValidPosition(activePiece.cells, spawnPosition, true, false))
         {
-            GameOver();
+            BoardFull();
             SpawnPiece(); // Makes Winner Start The Next Round
             return;
         }
 
         Set(activePiece);
     }
-    private void GameOver()
+    private void BoardFull()
     {
-        tilemap.ClearAllTiles();
-        gameManager.GameOver(PieceIndex + 1);
-        Debug.Log("Game Over Player" + (PieceIndex + 1) + " Lost");
-        SpawnRandomObstacles();
+        ClearLines();
     }
     public void Set(Piece piece)
     {
@@ -185,22 +182,17 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    //public void ClearLines()
-    //{
-    //    int row = Bounds.yMin;
+    public void ClearLines()
+    {
+        // Clear Bottom Five Lines When Board Full
+        int row = Bounds.yMin;
 
-    //    while (row < Bounds.yMax)
-    //    {
-    //        if (IsLineFull(row))
-    //        {
-    //            LineClear(row);
-    //        }
-    //        else
-    //        {
-    //            row++;
-    //        }
-    //    }
-    //}
+        while (row < 5)
+        {
+            LineClear(row);
+            row++;
+        }
+    }
 
     private bool IsLineFull(int row)
     {

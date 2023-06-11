@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver(int PlayerNumber)
     {
+        Time.timeScale = 0f;
         UIManager.GameOver(PlayerNumber);
         pickupManager.StartGame();
     }
@@ -29,22 +30,33 @@ public class GameManager : MonoBehaviour
     public void BananaCollected(int PlayerIndex, int ScoreChange)
     {
         // Player Currently Gets 1 Score Per Banana
+        int Playerscore = 0;
         if (PlayerIndex == 0)
         {
             //Player One
             CurrentScore.x += ScoreChange;
+            Playerscore = (int)CurrentScore.x;
         }
         else
         {
             //Player Two
             CurrentScore.y += ScoreChange;
+            Playerscore = (int)CurrentScore.y;
         }
-        Debug.Log("Score Now Stands At Player One: " + CurrentScore.x + " Player Two: " + CurrentScore.y);
-        bananaAmount--;
-        if (bananaAmount <= 0)
+
+        if (Playerscore >= ScoreGoal)
         {
-            // If All Bananas Are Collected Then Spawn Some More
-            pickupManager.SpawnBananas();
+            GameOver(PlayerIndex);
+        }
+        else
+        {
+            Debug.Log("Score Now Stands At Player One: " + CurrentScore.x + " Player Two: " + CurrentScore.y);
+            bananaAmount--;
+            if (bananaAmount <= 0)
+            {
+                // If All Bananas Are Collected Then Spawn Some More
+                pickupManager.SpawnBananas();
+            }
         }
     }
 }
