@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
 
     public void PickupCollected(string Pickup)
     {
+        // Activates Pickup Text For Player Feedback When Collected
         ListsOfTexts[3].gameObject.SetActive(true);
         ListsOfTexts[3].text = Pickup + ListsOfTextsStarters[3];
         StopCoroutine(PickupDisplayTimer());
@@ -52,12 +53,14 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator PickupDisplayTimer()
     {
+        // Deactivate Pickup Text After Two Seconds
         yield return new WaitForSeconds(2f);
         ListsOfTexts[3].gameObject.SetActive(false);
     }
 
     public void GameOver(int playerNumber)
     {
+        // Opens End Game Screen And Displays The Winning Player
         string wonPlayer = "One";
 
         if (playerNumber != 1)

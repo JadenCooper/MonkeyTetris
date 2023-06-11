@@ -461,7 +461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &390702800
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2302,7 +2302,7 @@ MonoBehaviour:
   - 'Player Two Score: '
   - ' Collected'
   mainCamera: {fileID: 119056484}
-  EndGameScreen: {fileID: 0}
+  EndGameScreen: {fileID: 390702799}
 --- !u!114 &1956594310
 MonoBehaviour:
   m_ObjectHideFlags: 0
