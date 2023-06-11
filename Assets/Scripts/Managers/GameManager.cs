@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public void GameOver(int PlayerNumber)
     {
         Time.timeScale = 0f;
-        pickupManager.StartGame();
+        UIManager.GameOver(PlayerNumber);
     }
 
     public void SetBoardSize(int BoardSize)

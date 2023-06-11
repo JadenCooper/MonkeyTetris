@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     public List<TMP_Text> ListsOfTexts = new List<TMP_Text>();
     public List<string> ListsOfTextsStarters = new List<string>(); // EG Player One Score:
     public Camera mainCamera;
-
+    public GameObject EndGameScreen;
     public void SetBoardSize(int BoardSize, int scoreGoal, Vector2 scores)
     {
         // Change Camera Sizes And Setup UI
@@ -54,5 +54,18 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         ListsOfTexts[3].gameObject.SetActive(false);
+    }
+
+    public void GameOver(int playerNumber)
+    {
+        string wonPlayer = "One";
+
+        if (playerNumber != 1)
+        {
+            wonPlayer = "Two";
+        }
+
+        EndGameScreen.SetActive(true);
+        ListsOfTexts[4].text = "Player " + wonPlayer + " Won";
     }
 }
