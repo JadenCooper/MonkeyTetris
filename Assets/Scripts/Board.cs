@@ -93,7 +93,7 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
-        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false))
+        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false, false))
         {
             GameOver();
             SpawnPiece(); // Makes Winner Start The Next Round
@@ -128,7 +128,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked)
+    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked, bool Ghost)
     {
         // Checks If All Cells Would Be Valid After Move
         for (int i = 0; i < cells.Length; i++)
@@ -147,6 +147,10 @@ public class Board : MonoBehaviour
                 if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
                     return pickupManager.CheckForPickUp(tilePosition, PieceIndex, pieceLocked);
+                }
+                else if(ghost)
+                {
+                    return pickupManager.GhostCheckForPickUp(tilePosition);
                 }
                 else
                 {
