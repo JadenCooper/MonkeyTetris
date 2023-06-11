@@ -24,7 +24,7 @@ public class Board : MonoBehaviour
     public BoardSizeSO boardSizeData;
 
     public PickupManager pickupManager;
-    private int BoardSizeSetting = 10;
+    public int BoardSizeSetting = 10;
     public RectInt Bounds
     {
         get
@@ -114,7 +114,6 @@ public class Board : MonoBehaviour
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         PieceIndex++;
         PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
-        gameManager.PlayerChange(PieceIndex + 1);
         activePiece.pieceControls = ControlDataList[PieceIndex];
         data.tile = playerColors[PieceIndex];
         activePiece.Initialize(this, spawnPosition , data);

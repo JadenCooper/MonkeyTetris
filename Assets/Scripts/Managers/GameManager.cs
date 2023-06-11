@@ -18,18 +18,12 @@ public class GameManager : MonoBehaviour
     public void GameOver(int PlayerNumber)
     {
         Time.timeScale = 0f;
-        UIManager.GameOver(PlayerNumber);
         pickupManager.StartGame();
-    }
-
-    public void PlayerChange(int PlayerNumber)
-    {
-        UIManager.PlayerChange(PlayerNumber);
     }
 
     public void SetBoardSize(int BoardSize)
     {
-        UIManager.SetBoardSize(BoardSize);
+        UIManager.SetBoardSize(BoardSize, ScoreGoal, CurrentScore);
     }
 
     public void BananaCollected(int PlayerIndex, int ScoreChange)
@@ -48,6 +42,8 @@ public class GameManager : MonoBehaviour
             CurrentScore.y += ScoreChange;
             Playerscore = (int)CurrentScore.y;
         }
+
+        UIManager.SetScores(CurrentScore);
 
         if (Playerscore >= ScoreGoal)
         {
