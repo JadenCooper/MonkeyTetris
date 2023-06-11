@@ -32,15 +32,12 @@ public class Banana : MonoBehaviour
         if (RipenessIndex != RipenessTimes.Length)
         {
             // Banana Is Still Valid And Not Yet Rotten
-            Debug.Log("Ripeness Stage " + RipenessIndex);
             pickupManager.ChangeBananaTile(RipenessIndex, Position);
             StartCoroutine(RipenessTimer());
         }
         else
         {
             // Banana Is Rotten So Remove
-            Debug.Log("Banana Is Rotten");
-            // pickupManager.PickedBananas.RemoveAt(Position)
             pickupManager.RemoveBanana(Position, true);
         }
     }

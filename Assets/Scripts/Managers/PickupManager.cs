@@ -111,6 +111,8 @@ public class PickupManager : MonoBehaviour
     
     public bool GhostCheckForPickUp(Vector3Int tilePosition)
     {
+        // Different Check To Make Sure The Ghost Goes Through The Pickups
+        // Without Activating Them
         TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
         if (tileBase.name.Contains("Yellow"))
         {
