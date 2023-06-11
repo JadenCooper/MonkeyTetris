@@ -12,13 +12,27 @@ public class PickupManager : MonoBehaviour
     public Board gameBoard;
 
     public List<Tile> BananaRipenessTiles = new List<Tile>();// ScriptableObject for storing board size data
-    public BoardSizeSO boardSizeData;// ScriptableObject for storing board size data
+    public List<BoardSizeSO> boardSizeData = new List<BoardSizeSO>();// ScriptableObject for storing board size data
     public int BananaAmount;// Number of bananas to spawn and how many are on the board
     public List<GameObject> PickedBananas = new List<GameObject>();
-
+    public int BoardSize = 0;
 
     public void StartGame()
     {
+        switch (gameBoard.BoardSizeSetting)
+        {
+            case 10:
+                BoardSize = 0;
+                break;
+
+            case 20:
+                BoardSize = 1;
+                break;
+
+            case 30:
+                BoardSize = 2;
+                break;
+        }
         SpawnBananas();
         SpawnPickups();
     }
@@ -63,8 +77,8 @@ public class PickupManager : MonoBehaviour
         {
             // Randomly select a position for the pickup within the specified ranges
             // -5 X  Left 4 X Right  9 Y Top -10 Y Bottom For Default 10/20 Board
-            Vector3Int pickupSpawn = new Vector3Int(Random.Range(boardSizeData.pickupXRange.x, boardSizeData.pickupXRange.y),
-                Random.Range(boardSizeData.pickupYRange.x, boardSizeData.pickupYRange.y), 0);
+            Vector3Int pickupSpawn = new Vector3Int(Random.Range(boardSizeData[BoardSize].pickupXRange.x, boardSizeData[BoardSize].pickupXRange.y),
+                Random.Range(boardSizeData[BoardSize].pickupYRange.x, boardSizeData[BoardSize].pickupYRange.y), 0);
             pickup.Initialize(pickupSpawn, data);
 
             FreePosition = gameBoard.IsValidPosition(pickup.cells, pickupSpawn, false, false, false); // Checks If Pickup Position Is Free
@@ -167,5 +181,17 @@ public class PickupManager : MonoBehaviour
                 
             }
         }
+    }
+
+    public void ResetPickups()
+    {
+        PickedBananas.Clear();
+        for (int i = 0; i < BananaList.Count; i++)
+        {
+            Destroy(BananaList[i]);
+        }
+        BananaList.Clear();
+        SpawnPickups();
+        SpawnBananas();
     }
 }

@@ -4,15 +4,71 @@ using UnityEngine;
 using TMPro;
 public class UIManager : MonoBehaviour
 {
-    public TMP_Text activePlayerText;
-    public TMP_Text LostPlayerText;
-    public void PlayerChange(int PlayerNumber)
+    public List<TMP_Text> ListsOfTexts = new List<TMP_Text>();
+    public List<string> ListsOfTextsStarters = new List<string>(); // EG Player One Score:
+    public Camera mainCamera;
+    public GameObject EndGameScreen;
+    public void SetBoardSize(int BoardSize, int scoreGoal, Vector2 scores)
     {
-        activePlayerText.text = "Player " + PlayerNumber + " Active";
+        // Change Camera Sizes And Setup UI
+        switch (BoardSize)
+        {
+            case 10:
+                mainCamera.orthographicSize = 15;
+                break;
+
+            case 20:
+                mainCamera.orthographicSize = 14;
+                break;
+
+            case 30:
+                mainCamera.orthographicSize = 17;
+                break;
+
+            default:
+                Debug.Log("SetBoardSize Broke");
+                break;
+        }
+
+        ListsOfTexts[0].text = ListsOfTextsStarters[0] + scoreGoal.ToString();
+        ListsOfTexts[1].text = ListsOfTextsStarters[1] + scores.x.ToString();
+        ListsOfTexts[2].text = ListsOfTextsStarters[2] + scores.y.ToString();
     }
 
-    public void GameOver(int PlayerNumber)
+    public void SetScores(Vector2 scores)
     {
-        LostPlayerText.text = "Player " + PlayerNumber + " Lost";
+        // Update Score UI
+        ListsOfTexts[1].text = ListsOfTextsStarters[1] + scores.x.ToString();
+        ListsOfTexts[2].text = ListsOfTextsStarters[2] + scores.y.ToString();
+    }
+
+    public void PickupCollected(string Pickup)
+    {
+        // Activates Pickup Text For Player Feedback When Collected
+        ListsOfTexts[3].gameObject.SetActive(true);
+        ListsOfTexts[3].text = Pickup + ListsOfTextsStarters[3];
+        StopCoroutine(PickupDisplayTimer());
+        StartCoroutine(PickupDisplayTimer());
+    }
+
+    public IEnumerator PickupDisplayTimer()
+    {
+        // Deactivate Pickup Text After Two Seconds
+        yield return new WaitForSeconds(2f);
+        ListsOfTexts[3].gameObject.SetActive(false);
+    }
+
+    public void GameOver(int playerNumber)
+    {
+        // Opens End Game Screen And Displays The Winning Player
+        string wonPlayer = "One";
+
+        if (playerNumber != 1)
+        {
+            wonPlayer = "Two";
+        }
+
+        EndGameScreen.SetActive(true);
+        ListsOfTexts[4].text = "Player " + wonPlayer + " Won";
     }
 }
