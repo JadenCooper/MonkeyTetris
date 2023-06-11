@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     public Board board;
     public PickupManager pickupManager;
     public int bananaAmount;
-    public Vector2 Score = Vector2.zero;
+    public Vector2 CurrentScore = Vector2.zero;
+    public int ScoreGoal = 100;
     private void Awake()
     {
         UIManager = GetComponent<UIManager>();
@@ -31,14 +32,14 @@ public class GameManager : MonoBehaviour
         if (PlayerIndex == 0)
         {
             //Player One
-            Score.x += ScoreChange;
+            CurrentScore.x += ScoreChange;
         }
         else
         {
             //Player Two
-            Score.y += ScoreChange;
+            CurrentScore.y += ScoreChange;
         }
-        Debug.Log("Score Now Stands At Player One: " + Score.x + " Player Two: " + Score.y);
+        Debug.Log("Score Now Stands At Player One: " + CurrentScore.x + " Player Two: " + CurrentScore.y);
         bananaAmount--;
         if (bananaAmount <= 0)
         {

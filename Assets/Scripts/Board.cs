@@ -24,6 +24,7 @@ public class Board : MonoBehaviour
     public BoardSizeSO boardSizeData;
 
     public PickupManager pickupManager;
+    private int BoardSizeSetting = 10;
     public RectInt Bounds
     {
         get
@@ -40,15 +41,17 @@ public class Board : MonoBehaviour
         activePiece.pieceControls = ControlDataList[0];
         ghost.trackingPiece = activePiece;
 
+        BoardSizeSetting = PlayerPrefs.GetInt("BoardSize");
+
         // Set the boardSize to a new Vector2Int using PlayerPrefs.GetInt("BoardSize") as the x component and 20 as the y component
-        boardSize = new Vector2Int(PlayerPrefs.GetInt("BoardSize"), 20);
+        boardSize = new Vector2Int(BoardSizeSetting, 20);
 
         // Set the size of the grid using PlayerPrefs.GetInt("BoardSize") as the x component and 20 as the y component
-        grid.size = new Vector2(PlayerPrefs.GetInt("BoardSize"), 20);
+        grid.size = new Vector2(BoardSizeSetting, 20);
 
         // Scale the border GameObject based on the current local scale multiplied by PlayerPrefs.GetInt("BoardSize") for the x component 
         // and 20 for the y component, while keeping the z component unchanged
-        border.transform.localScale = new Vector3((border.transform.localScale.x * PlayerPrefs.GetInt("BoardSize")), (border.transform.localScale.y * 20), 1);
+        border.transform.localScale = new Vector3((border.transform.localScale.x * BoardSizeSetting), (border.transform.localScale.y * 20), 1);
         for (int i = 0; i < tetrominos.Length; i++)
         {
             tetrominos[i].Initalize();
@@ -64,6 +67,29 @@ public class Board : MonoBehaviour
         pickupManager.StartGame();
         // Spawn random cubes
         SpawnRandomObstacles();
+
+        switch (BoardSizeSetting)
+        {
+            // Sets Score To Win The Game Based Off Of The Size Of The Board
+            case 10:
+                // Quick And Small
+                gameManager.ScoreGoal = 100;
+                break;
+
+            case 20:
+                // Medium
+                gameManager.ScoreGoal = 200;
+                break;
+
+            case 30:
+                // Long And large
+                gameManager.ScoreGoal = 300;
+                break;
+
+            default:
+                Debug.Log("Setting Score Goal Broke");
+                break;
+        }
     }
 
     public void SpawnPiece()
@@ -73,10 +99,11 @@ public class Board : MonoBehaviour
             // Iterate through the PickedBananas list
             // Perform actions for each picked banana
             for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
+                Banana BananaToBeRemoved = pickupManager.PickedBananas[i].GetComponent<Banana>();
                 // Notify the gameManager that a banana with the specified PieceIndex has been collected
-                gameManager.BananaCollected(PieceIndex);
+                gameManager.BananaCollected(PieceIndex, BananaToBeRemoved.Score[BananaToBeRemoved.RipenessIndex]);
                 // Get the position of the current picked banana
-                Vector3Int position = pickupManager.PickedBananas[i].GetComponent<Banana>().Position;
+                Vector3Int position = BananaToBeRemoved.Position;
                 // Remove the current picked banana from the PickedBananas list
                 pickupManager.PickedBananas.RemoveAt(i);
                 // Remove the banana from the pickupManager using the obtained position
