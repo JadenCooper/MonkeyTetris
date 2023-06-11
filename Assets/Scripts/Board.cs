@@ -131,6 +131,8 @@ public class Board : MonoBehaviour
     private void BoardFull()
     {
         ClearLines();
+        pickupManager.ResetPickups();
+        SpawnRandomObstacles();
     }
     public void Set(Piece piece)
     {

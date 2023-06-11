@@ -153,4 +153,16 @@ public class PickupManager : MonoBehaviour
             }
         }
     }
+
+    public void ResetPickups()
+    {
+        PickedBananas.Clear();
+        for (int i = 0; i < BananaList.Count; i++)
+        {
+            Destroy(BananaList[i]);
+        }
+        BananaList.Clear();
+        SpawnPickups();
+        SpawnBananas();
+    }
 }

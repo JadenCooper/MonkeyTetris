@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
         UIManager.PlayerChange(PlayerNumber);
     }
 
+    public void SetBoardSize()
+    {
+
+    }
+
     public void BananaCollected(int PlayerIndex, int ScoreChange)
     {
         // Player Currently Gets 1 Score Per Banana
