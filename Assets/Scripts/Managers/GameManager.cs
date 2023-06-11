@@ -27,9 +27,9 @@ public class GameManager : MonoBehaviour
         UIManager.PlayerChange(PlayerNumber);
     }
 
-    public void SetBoardSize()
+    public void SetBoardSize(int BoardSize)
     {
-
+        UIManager.SetBoardSize(BoardSize);
     }
 
     public void BananaCollected(int PlayerIndex, int ScoreChange)

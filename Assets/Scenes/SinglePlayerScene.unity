@@ -657,7 +657,8 @@ MonoBehaviour:
   board: {fileID: 264470866}
   pickupManager: {fileID: 1956594310}
   bananaAmount: 0
-  Score: {x: 0, y: 0}
+  CurrentScore: {x: 0, y: 0}
+  ScoreGoal: 100
 --- !u!4 &1956594308
 Transform:
   m_ObjectHideFlags: 0
@@ -687,6 +688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activePlayerText: {fileID: 2035761371}
   LostPlayerText: {fileID: 1642133180}
+  mainCamera: {fileID: 119056484}
 --- !u!114 &1956594310
 MonoBehaviour:
   m_ObjectHideFlags: 0

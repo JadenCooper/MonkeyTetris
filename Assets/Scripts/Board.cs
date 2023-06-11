@@ -90,6 +90,7 @@ public class Board : MonoBehaviour
                 Debug.Log("Setting Score Goal Broke");
                 break;
         }
+        gameManager.SetBoardSize(BoardSizeSetting);
     }
 
     public void SpawnPiece()
