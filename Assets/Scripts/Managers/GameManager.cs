@@ -26,8 +26,14 @@ public class GameManager : MonoBehaviour
         UIManager.SetBoardSize(BoardSize, ScoreGoal, CurrentScore);
     }
 
+    public void PickupCollected(string Pickup)
+    {
+        UIManager.PickupCollected(Pickup);
+    }
+
     public void BananaCollected(int PlayerIndex, int ScoreChange)
     {
+        PickupCollected("Banana");
         // Player Currently Gets 1 Score Per Banana
         int Playerscore = 0;
         if (PlayerIndex == 0)

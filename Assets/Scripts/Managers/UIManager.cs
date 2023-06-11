@@ -41,4 +41,18 @@ public class UIManager : MonoBehaviour
         ListsOfTexts[1].text = ListsOfTextsStarters[1] + scores.x.ToString();
         ListsOfTexts[2].text = ListsOfTextsStarters[2] + scores.y.ToString();
     }
+
+    public void PickupCollected(string Pickup)
+    {
+        ListsOfTexts[3].gameObject.SetActive(true);
+        ListsOfTexts[3].text = Pickup + ListsOfTextsStarters[3];
+        StopCoroutine(PickupDisplayTimer());
+        StartCoroutine(PickupDisplayTimer());
+    }
+
+    public IEnumerator PickupDisplayTimer()
+    {
+        yield return new WaitForSeconds(2f);
+        ListsOfTexts[3].gameObject.SetActive(false);
+    }
 }
