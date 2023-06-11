@@ -109,6 +109,8 @@ public class Board : MonoBehaviour
                 pickupManager.PickedBananas.RemoveAt(i);
                 // Remove the banana from the pickupManager using the obtained position
                 pickupManager.RemoveBanana(position, false);
+                // line/lines clear when banana is collected
+                LineClear(Bounds.yMin);
             }
         };
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
@@ -119,7 +121,7 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
-        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false))
+        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false, false))
         {
             BoardFull();
             SpawnPiece(); // Makes Winner Start The Next Round
@@ -153,7 +155,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked)
+    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked, bool Ghost)
     {
         // Checks If All Cells Would Be Valid After Move
         for (int i = 0; i < cells.Length; i++)
@@ -172,6 +174,10 @@ public class Board : MonoBehaviour
                 if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
                     return pickupManager.CheckForPickUp(tilePosition, PieceIndex, pieceLocked);
+                }
+                else if(ghost)
+                {
+                    return pickupManager.GhostCheckForPickUp(tilePosition);
                 }
                 else
                 {
@@ -211,12 +217,18 @@ public class Board : MonoBehaviour
     }
 
     private void LineClear(int row)
+{
+    int rowsAffected = Random.Range(1, 4); // Generate a random number between 1 and 3 (inclusive)
+    Debug.Log(rowsAffected);
+    //deletes the amount of rows from the random number
+    for (int i = 0; i < rowsAffected; i++)
     {
         for (int col = Bounds.xMin; col < Bounds.xMax; col++)
         {
             Vector3Int position = new Vector3Int(col, row, 0);
             tilemap.SetTile(position, null);
         }
+    }
 
         while (row < Bounds.yMax)
         {
@@ -231,7 +243,8 @@ public class Board : MonoBehaviour
 
             row++;
         }
-    }
+}
+
 
 
     private void SpawnRandomObstacles()

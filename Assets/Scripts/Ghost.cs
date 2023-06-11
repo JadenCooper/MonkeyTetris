@@ -73,7 +73,7 @@ public class Ghost : MonoBehaviour
         {
             position.y = row;
 
-            if (mainBoard.IsValidPosition(trackingPiece.cells, position, false, false))
+            if (mainBoard.IsValidPosition(trackingPiece.cells, position, false, false, true))
             {
                 this.position = position;
             }
