@@ -58,40 +58,16 @@ public class UIManager : MonoBehaviour
         ListsOfTexts[2].text = ListsOfTextsStarters[2] + scores.y.ToString();
     }
 
-    public void SetScores(Vector2 scores)
+    public void PlayerChange(int PlayerNumber)
     {
-        // Update Score UI
-        ListsOfTexts[1].text = ListsOfTextsStarters[1] + scores.x.ToString();
-        ListsOfTexts[2].text = ListsOfTextsStarters[2] + scores.y.ToString();
+        activePlayerText.text = "Player " + PlayerNumber + " Active";
     }
 
-    public void PickupCollected(string Pickup)
+    public void GameOver(int PlayerNumber)
     {
-        // Activates Pickup Text For Player Feedback When Collected
-        ListsOfTexts[3].gameObject.SetActive(true);
-        ListsOfTexts[3].text = Pickup + ListsOfTextsStarters[3];
-        StopCoroutine(PickupDisplayTimer());
-        StartCoroutine(PickupDisplayTimer());
+        LostPlayerText.text = "Player " + PlayerNumber + " Lost";
     }
 
-    public IEnumerator PickupDisplayTimer()
-    {
-        // Deactivate Pickup Text After Two Seconds
-        yield return new WaitForSeconds(2f);
-        ListsOfTexts[3].gameObject.SetActive(false);
-    }
 
-    public void GameOver(int playerNumber)
-    {
-        // Opens End Game Screen And Displays The Winning Player
-        string wonPlayer = "One";
 
-        if (playerNumber != 1)
-        {
-            wonPlayer = "Two";
-        }
-
-        EndGameScreen.SetActive(true);
-        ListsOfTexts[4].text = "Player " + wonPlayer + " Won";
-    }
 }

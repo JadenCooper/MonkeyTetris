@@ -8,8 +8,7 @@ public class GameManager : MonoBehaviour
     public Board board;
     public PickupManager pickupManager;
     public int bananaAmount;
-    public Vector2 CurrentScore = Vector2.zero;
-    public int ScoreGoal = 100;
+    public Vector2 Score = Vector2.zero;
     private void Awake()
     {
         UIManager = GetComponent<UIManager>();
@@ -17,45 +16,31 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver(int PlayerNumber)
     {
-        Time.timeScale = 0f;
         UIManager.GameOver(PlayerNumber);
+        pickupManager.StartGame();
     }
 
-    public void SetBoardSize(int BoardSize)
+    public void PlayerChange(int PlayerNumber)
     {
-        UIManager.SetBoardSize(BoardSize, ScoreGoal, CurrentScore);
+        UIManager.PlayerChange(PlayerNumber);
     }
 
-    public void PickupCollected(string Pickup)
+    public void BananaCollected(int PlayerIndex)
     {
-        UIManager.PickupCollected(Pickup);
-    }
-
-    public void BananaCollected(int PlayerIndex, int ScoreChange)
-    {
-        PickupCollected("Banana");
         // Player Currently Gets 1 Score Per Banana
-        int Playerscore = 0;
         if (PlayerIndex == 0)
         {
             //Player One
-            CurrentScore.x += ScoreChange;
-            Playerscore = (int)CurrentScore.x;
+            Score.x++;
         }
         else
         {
             //Player Two
-            CurrentScore.y += ScoreChange;
-            Playerscore = (int)CurrentScore.y;
+            Score.y++;
         }
-
-        UIManager.SetScores(CurrentScore);
-
-        if (Playerscore >= ScoreGoal)
-        {
-            GameOver(PlayerIndex);
-        }
-        else
+        Debug.Log("Score Now Stands At Player One: " + Score.x + " Player Two: " + Score.y);
+        bananaAmount--;
+        if (bananaAmount <= 0)
         {
             bananaAmount--;
             if (bananaAmount <= 0)
