@@ -92,7 +92,7 @@ public class Piece : MonoBehaviour
     private void Lock()
     {
 
-        board.IsValidPosition(cells, position, true, true, false);
+        board.IsValidPosition(cells, position, true, true);
         board.Set(this);
         //board.ClearLines();
         board.SpawnPiece();
@@ -120,7 +120,7 @@ public class Piece : MonoBehaviour
         newPosition.x += translation.x;
         newPosition.y += translation.y;
 
-        if (board.IsValidPosition(cells, newPosition, true, false, false))
+        if (board.IsValidPosition(cells, newPosition, true, false))
         {
             position = newPosition;
             lockTime = 0f;

@@ -100,11 +100,10 @@ public class Board : MonoBehaviour
             // Iterate through the PickedBananas list
             // Perform actions for each picked banana
             for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
-                Banana BananaToBeRemoved = pickupManager.PickedBananas[i].GetComponent<Banana>();
                 // Notify the gameManager that a banana with the specified PieceIndex has been collected
-                gameManager.BananaCollected(PieceIndex, BananaToBeRemoved.Score[BananaToBeRemoved.RipenessIndex]);
+                gameManager.BananaCollected(PieceIndex);
                 // Get the position of the current picked banana
-                Vector3Int position = BananaToBeRemoved.Position;
+                Vector3Int position = pickupManager.PickedBananas[i].GetComponent<Banana>().Position;
                 // Remove the current picked banana from the PickedBananas list
                 pickupManager.PickedBananas.RemoveAt(i);
                 // Remove the banana from the pickupManager using the obtained position
@@ -121,7 +120,7 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
-        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false, false))
+        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false))
         {
             BoardFull();
             SpawnPiece(); // Makes Winner Start The Next Round
@@ -155,7 +154,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked, bool Ghost)
+    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked)
     {
         // Checks If All Cells Would Be Valid After Move
         for (int i = 0; i < cells.Length; i++)
@@ -174,10 +173,6 @@ public class Board : MonoBehaviour
                 if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
                     return pickupManager.CheckForPickUp(tilePosition, PieceIndex, pieceLocked);
-                }
-                else if(ghost)
-                {
-                    return pickupManager.GhostCheckForPickUp(tilePosition);
                 }
                 else
                 {
