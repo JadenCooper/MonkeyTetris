@@ -41,7 +41,7 @@ public class PickupManager : MonoBehaviour
         if(PickedBananas.Count > 0){
             for(int i = 0; i < PickedBananas.Count; i++){
                 // Check if the position of the current PickedBanana is valid on the game board
-                if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false)){
+                if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false, false)){
                     // Set the tile at the current PickedBanana's position on the tilemap
                     gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
                     // Remove the current PickedBanana from the PickedBananas list
@@ -81,7 +81,7 @@ public class PickupManager : MonoBehaviour
                 Random.Range(boardSizeData[BoardSize].pickupYRange.x, boardSizeData[BoardSize].pickupYRange.y), 0);
             pickup.Initialize(pickupSpawn, data);
 
-            FreePosition = gameBoard.IsValidPosition(pickup.cells, pickupSpawn, false, false); // Checks If Pickup Position Is Free
+            FreePosition = gameBoard.IsValidPosition(pickup.cells, pickupSpawn, false, false, true); // Checks If Pickup Position Is Free
         } while (!FreePosition);
 
         for (int cell = 0; cell < pickup.cells.Length; cell++)
@@ -119,6 +119,21 @@ public class PickupManager : MonoBehaviour
         else
         {
             // Normal Tile
+            return false;
+        }
+    }
+
+    public bool GhostCheckForPickUp(Vector3Int tilePosition)
+    {
+        // Different Check To Make Sure The Ghost Goes Through The Pickups
+        // Without Activating Them
+        TileBase tileBase = gameBoard.tilemap.GetTile(tilePosition);
+        if (tileBase.name.Contains("Yellow"))
+        {
+            return true;
+        }
+        else
+        {
             return false;
         }
     }

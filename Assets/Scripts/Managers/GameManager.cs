@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Score Now Stands At Player One: " + CurrentScore.x + " Player Two: " + CurrentScore.y);
             bananaAmount--;
             if (bananaAmount <= 0)
             {
