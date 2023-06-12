@@ -13,6 +13,7 @@ public class BoardSize : MonoBehaviour
             int index = i; // Store the index to avoid closure issues
             checkboxes[i].onValueChanged.AddListener((value) => OnCheckboxValueChanged(index, value));
         }
+        PlayerPrefs.SetInt("BoardSize", int.Parse(checkboxes[0].name));
     }
 
     private void OnCheckboxValueChanged(int index, bool value)
