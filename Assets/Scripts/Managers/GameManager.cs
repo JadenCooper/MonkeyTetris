@@ -42,8 +42,12 @@ public class GameManager : MonoBehaviour
         bananaAmount--;
         if (bananaAmount <= 0)
         {
-            // If All Bananas Are Collected Then Spawn Some More
-            pickupManager.SpawnBananas();
+            bananaAmount--;
+            if (bananaAmount <= 0)
+            {
+                // If All Bananas Are Collected Then Spawn Some More
+                pickupManager.SpawnBananas();
+            }
         }
     }
 }
