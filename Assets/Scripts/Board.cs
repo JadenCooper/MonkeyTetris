@@ -10,9 +10,11 @@ public class Board : MonoBehaviour
     public List<PlayerControls> ControlDataList = new List<PlayerControls>();
     public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
-    public PickupData[] pickups;
+
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
+
+    private bool locked = false;
 
     public SpriteRenderer grid;
     public Transform border;
@@ -20,6 +22,8 @@ public class Board : MonoBehaviour
     public GameManager gameManager;
     public List<Tile> playerColors = new List<Tile>();
     public BoardSizeSO boardSizeData;
+
+    public PickupManager pickupManager;
     public RectInt Bounds
     {
         get
@@ -57,13 +61,31 @@ public class Board : MonoBehaviour
         data.tile = playerColors[0];
         activePiece.Initialize(this, spawnPosition, data);
         Set(activePiece);
-        SpawnPickups();
+        pickupManager.StartGame();
         // Spawn random cubes
         SpawnRandomObstacles();
     }
 
     public void SpawnPiece()
     {
+        // Check if there are picked bananas in the PickedBananas list
+        if(pickupManager.PickedBananas.Count > 0){
+            // Iterate through the PickedBananas list
+            // Perform actions for each picked banana
+            for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
+                Banana BananaToBeRemoved = pickupManager.PickedBananas[i].GetComponent<Banana>();
+                // Notify the gameManager that a banana with the specified PieceIndex has been collected
+                gameManager.BananaCollected(PieceIndex, BananaToBeRemoved.Score[BananaToBeRemoved.RipenessIndex]);
+                // Get the position of the current picked banana
+                Vector3Int position = BananaToBeRemoved.Position;
+                // Remove the current picked banana from the PickedBananas list
+                pickupManager.PickedBananas.RemoveAt(i);
+                // Remove the banana from the pickupManager using the obtained position
+                pickupManager.RemoveBanana(position, false);
+                // line/lines clear when banana is collected
+                LineClear(Bounds.yMin);
+            }
+        };
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         PieceIndex++;
         PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
@@ -73,7 +95,7 @@ public class Board : MonoBehaviour
         activePiece.Initialize(this, spawnPosition , data);
         ghost.trackingPiece = activePiece;
 
-        if (!IsValidPosition(activePiece.cells, spawnPosition, true))
+        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false, false))
         {
             GameOver();
             SpawnPiece(); // Makes Winner Start The Next Round
@@ -108,7 +130,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup)
+    public bool IsValidPosition(Vector3Int[] cells, Vector3Int position, bool CheckPickup, bool pieceLocked, bool Ghost)
     {
         // Checks If All Cells Would Be Valid After Move
         for (int i = 0; i < cells.Length; i++)
@@ -126,7 +148,11 @@ public class Board : MonoBehaviour
                 // Checks If Tile Already Present If So Cant Move There, Therefore False Unless Its A Pickup
                 if (CheckPickup) // The CheckPickup Bool Is Used To Make Sure Only The Player Piece Can Trigger The Pickup
                 {
-                    return CheckForPickUp(tilePosition);
+                    return pickupManager.CheckForPickUp(tilePosition, PieceIndex, pieceLocked);
+                }
+                else if(ghost)
+                {
+                    return pickupManager.GhostCheckForPickUp(tilePosition);
                 }
                 else
                 {
@@ -137,22 +163,6 @@ public class Board : MonoBehaviour
 
         // Movement Is Valid
         return true;
-    }
-
-    public bool CheckForPickUp(Vector3Int tilePosition)
-    {
-        // Checks If Tile Is One Of The Pickup Tiles, If Pickup, Triggers Their Effect
-        TileBase tileBase = tilemap.GetTile(tilePosition);
-        switch (tileBase.name)
-        {
-            case "Yellow": // Banana Tile
-                tilemap.SetTile(tilePosition, null);
-                gameManager.BananaCollected(PieceIndex);
-                return true;
-
-            default: // Normal Tile
-                return false;
-        }
     }
 
     //public void ClearLines()
@@ -187,12 +197,18 @@ public class Board : MonoBehaviour
     }
 
     private void LineClear(int row)
+{
+    int rowsAffected = Random.Range(1, 4); // Generate a random number between 1 and 3 (inclusive)
+    Debug.Log(rowsAffected);
+    //deletes the amount of rows from the random number
+    for (int i = 0; i < rowsAffected; i++)
     {
         for (int col = Bounds.xMin; col < Bounds.xMax; col++)
         {
             Vector3Int position = new Vector3Int(col, row, 0);
             tilemap.SetTile(position, null);
         }
+    }
 
         while (row < Bounds.yMax)
         {
@@ -207,61 +223,51 @@ public class Board : MonoBehaviour
 
             row++;
         }
-    }
+}
 
-    public void SpawnPickups()
-    {
-        int bananaAmount = Random.Range(1, 4);
-        for (int i = 0; i < bananaAmount; i++)
-        {
-            SpawnPickup();
-        }
-        gameManager.bananaAmount = bananaAmount;
-    }
 
-    public void SpawnPickup()
-    {
-        Pickup pickup = new();
-        PickupData data = pickups[Random.Range(0, pickups.Length)];
-        bool FreePosition = true;
-        do
-        {
-            // -5 X  Left 4 X Right  9 Y Top -10 Y Bottom For Default 10/20 Board
-            Vector3Int pickupSpawn = new Vector3Int(Random.Range(boardSizeData.pickupXRange.x, boardSizeData.pickupXRange.y),
-                Random.Range(boardSizeData.pickupYRange.x, boardSizeData.pickupYRange.y), 0);
-            pickup.Initialize(pickupSpawn, data);
-
-            FreePosition = IsValidPosition(pickup.cells, pickupSpawn, false); // Checks If Pickup Position Is Free
-        } while (!FreePosition);
-
-        for (int cell = 0; cell < pickup.cells.Length; cell++)
-        {
-            Vector3Int tilePosition = pickup.cells[cell] + pickup.position;
-            tilemap.SetTile(tilePosition, pickup.data.tile);
-        }
-    }
 
     private void SpawnRandomObstacles()
     {
-        int obstacleCount = Random.Range(3, 6); // Randomly choose the number of obstacles to spawn (between 3 and 5)
+        int[] heightMap = new int[boardSize.x]; //Declare empty heightmap (Array of Ints)
 
-        for (int i = 0; i < obstacleCount; i++)
+        int currVal = Random.Range(0,4); //Starting elevation
+
+        heightMap[0] = (currVal);
+
+        for (int i = 1; i < boardSize.x; i++) //Generate Heightmap based on boardwidth
+        {
+            int rng = Random.Range(0,4); //Odds for changing elevatino on each step.
+            //25% Increase, 25% Decrease, 50% Stay Same
+            switch(rng)
+            {
+                case 0:
+                    currVal++;
+                    break;
+                case 1:
+                    currVal--;
+                    break;
+                default:
+                    break;
+            }
+            currVal = Mathf.Clamp(currVal, 0, (boardSize.y / 3)); //Clamp heightmap val between zero and a third up the board.
+            heightMap[i] = (currVal); //Commit the value to heightmap.
+        }
+
+        for (int i = 0; i < boardSize.x; i++) //For the width of our board...
         {
-            // Generate a random position within the board bounds
-            int x = Random.Range(0, boardSize.x) - boardSize.x/2;
-            int y = Random.Range(0, boardSize.y) - boardSize.y/2;
-
-            // Generate a random number between 0 and the number of obstacle tiles
-            int randomIndex = Random.Range(0, obstacleTiles.Length);
-
-            // Get the random obstacle tile from the tile palette
-            TileBase obstacleTile = obstacleTiles[randomIndex];
-
-            // If the obstacle tile exists, spawn it at the randomly chosen position
-            if (obstacleTile != null)
+            for (int j = 0; j < heightMap[i]; j++) //And for how high each row is...
             {
-                Vector3Int tilePosition = new Vector3Int(x, y, 0);
-                tilemap.SetTile(tilePosition, obstacleTile);
+                //Place an obstacle tile at the right position.
+                TileBase obstacleTile = obstacleTiles[Random.Range(0, obstacleTiles.Length)];
+
+                if (obstacleTile != null)
+                {
+                    int x = i - boardSize.x/2;
+                    int y = j - boardSize.y/2;
+                    Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                    tilemap.SetTile(tilePosition, obstacleTile);
+                }
             }
         }
     }
