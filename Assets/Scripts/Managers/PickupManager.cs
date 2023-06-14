@@ -16,7 +16,7 @@ public class PickupManager : MonoBehaviour
     public int BananaAmount;// Number of bananas to spawn and how many are on the board
     public List<GameObject> PickedBananas = new List<GameObject>();
     public int BoardSize = 0;
-
+    public SoundManager soundManager;
     public void StartGame()
     {
         switch (gameBoard.BoardSizeSetting)
@@ -58,7 +58,7 @@ public class PickupManager : MonoBehaviour
         for (int i = 0; i < BananaAmount; i++)
         {
             BananaList.Add(Instantiate(BananaHolder));
-            BananaList[i].GetComponent<Banana>().Setup(this, SpawnPickup());
+            BananaList[i].GetComponent<Banana>().Setup(this, SpawnPickup(true));
         }
         gameManager.bananaAmount = BananaAmount;
     }
@@ -66,12 +66,22 @@ public class PickupManager : MonoBehaviour
     {
         // Spawn other pickups on the game board
         // Normal Pickups Will Go Here
+        int PickupAmount = Random.Range(1, 8);
+        for (int i = 0; i < PickupAmount; i++)
+        {
+            SpawnPickup(false);
+        }
     }
 
-    public Vector3Int SpawnPickup()
+    public Vector3Int SpawnPickup( bool Banana)
     {
         Pickup pickup = new();
-        PickupData data = pickups[Random.Range(0, pickups.Length)];
+        int pickedPickup = 0;
+        if (!Banana)
+        {
+            pickedPickup = Random.Range(1, pickups.Length);
+        }
+        PickupData data = pickups[pickedPickup];
         bool FreePosition = true;
         do
         {
@@ -118,8 +128,26 @@ public class PickupManager : MonoBehaviour
         }
         else
         {
-            // Normal Tile
-            return false;
+            switch(tileBase.name)
+            {
+                case "Cyan":
+                    // Line Clear
+
+                    return true;
+
+                case "Orange":
+                    // Explosion
+
+                    return true;
+
+                case "Purple":
+                    //
+                    return true;
+
+                default:
+                    // Normal Tile
+                    return false;
+            }
         }
     }
 
