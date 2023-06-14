@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
     public List<PlayerControls> ControlDataList = new List<PlayerControls>();
     public int PieceIndex = 0;
     public TetrominoData[] tetrominos;
-
+    public SoundManager soundManager;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
 
@@ -112,6 +112,7 @@ public class Board : MonoBehaviour
                 // line/lines clear when banana is collected
                 LineClear(Bounds.yMin);
             }
+            soundManager.PlaySound(0);
         };
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         PieceIndex++;
@@ -135,6 +136,7 @@ public class Board : MonoBehaviour
         ClearLines();
         pickupManager.ResetPickups();
         SpawnRandomObstacles();
+        soundManager.PlaySound(1);
     }
     public void Set(Piece piece)
     {
