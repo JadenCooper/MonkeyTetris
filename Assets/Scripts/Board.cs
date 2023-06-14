@@ -25,6 +25,7 @@ public class Board : MonoBehaviour
 
     public PickupManager pickupManager;
     public int BoardSizeSetting = 10;
+    private bool spawning = false;
     public RectInt Bounds
     {
         get
@@ -95,49 +96,58 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece()
     {
-        // Check if there are picked bananas in the PickedBananas list
-        if(pickupManager.PickedBananas.Count > 0){
-            // Iterate through the PickedBananas list
-            // Perform actions for each picked banana
-            for(int i = 0; i <= pickupManager.PickedBananas.Count; i++){
-                Banana banana = pickupManager.PickedBananas[i].GetComponent<Banana>();
-                // Notify the gameManager that a banana with the specified PieceIndex has been collected
-                gameManager.BananaCollected(PieceIndex, banana.Score[banana.RipenessIndex]);
-                // Get the position of the current picked banana
-                Vector3Int position = banana.Position;
-                // Remove the current picked banana from the PickedBananas list
-                pickupManager.PickedBananas.RemoveAt(i);
-                // Remove the banana from the pickupManager using the obtained position
-                pickupManager.RemoveBanana(position, false);
-                // line/lines clear when banana is collected
-                LineClear(Bounds.yMin);
+        if (!spawning) // This Stops Multiple Spawnings From Happening Concurrently Breaking The Game
+        {
+            spawning = true;
+            // Check if there are picked bananas in the PickedBananas list
+            if (pickupManager.PickedBananas.Count > 0)
+            {
+                // Iterate through the PickedBananas list
+                // Perform actions for each picked banana
+                for (int i = 0; i <= pickupManager.PickedBananas.Count; i++)
+                {
+                    Banana banana = pickupManager.PickedBananas[i].GetComponent<Banana>();
+                    // Notify the gameManager that a banana with the specified PieceIndex has been collected
+                    gameManager.BananaCollected(PieceIndex, banana.Score[banana.RipenessIndex]);
+                    // Get the position of the current picked banana
+                    Vector3Int position = banana.Position;
+                    // Remove the current picked banana from the PickedBananas list
+                    pickupManager.PickedBananas.RemoveAt(i);
+                    // Remove the banana from the pickupManager using the obtained position
+                    pickupManager.RemoveBanana(position, false);
+                    // line/lines clear when banana is collected
+                    LineClear(Bounds.yMin);
+                }
+                soundManager.PlaySound(0);
+            };
+
+            for (int i = 0; i < activePiece.cells.Length; i++)
+            {
+                // Change Piece Tiles To The Set Version
+                Vector3Int tilePosition = activePiece.cells[i] + activePiece.position;
+                tilemap.SetTile(tilePosition, playerColors[PieceIndex + 2]);
             }
-            soundManager.PlaySound(0);
-        };
 
-        for (int i = 0; i < activePiece.cells.Length; i++)
-        {
-            // Change Piece Tiles To The Set Version
-            Vector3Int tilePosition = activePiece.cells[i] + activePiece.position;
-            tilemap.SetTile(tilePosition, playerColors[PieceIndex + 2]);
+            TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
+            PieceIndex++;
+            PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
+            activePiece.pieceControls = ControlDataList[PieceIndex];
+            data.tile = playerColors[PieceIndex];
+            activePiece.Initialize(this, spawnPosition, data);
+            ghost.trackingPiece = activePiece;
+
+            if (!IsValidPosition(activePiece.cells, spawnPosition, true, false, false))
+            {
+                BoardFull();
+                return;
+            }
+            else
+            {
+                spawning = false;
+            }
+
+            Set(activePiece);
         }
-
-        TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
-        PieceIndex++;
-        PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);
-        activePiece.pieceControls = ControlDataList[PieceIndex];
-        data.tile = playerColors[PieceIndex];
-        activePiece.Initialize(this, spawnPosition , data);
-        ghost.trackingPiece = activePiece;
-
-        if (!IsValidPosition(activePiece.cells, spawnPosition, true, false, false))
-        {
-            BoardFull();
-            SpawnPiece(); // Makes Winner Start The Next Round
-            return;
-        }
-
-        Set(activePiece);
     }
     private void BoardFull()
     {
@@ -145,6 +155,8 @@ public class Board : MonoBehaviour
         pickupManager.ResetPickups();
         SpawnRandomObstacles();
         soundManager.PlaySound(1);
+        spawning = false;
+        //SpawnPiece();
     }
     public void Set(Piece piece)
     {
