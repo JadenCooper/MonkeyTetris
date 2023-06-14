@@ -15,6 +15,22 @@ public void PauseGame()
     Debug.Log("Game paused");
 }
 
+void Update()
+{
+    // Check if the Escape key is pressed, if so pause game
+    if (Input.GetKeyDown(KeyCode.Escape))
+    {
+        if (isPaused)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
+}
+
 public void ResumeGame()
 {
     isPaused = false;
