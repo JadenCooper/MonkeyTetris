@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public int bananaAmount;
     public Vector2 CurrentScore = Vector2.zero;
     public int ScoreGoal = 100;
+    public SoundManager soundManager;
     private void Awake()
     {
         UIManager = GetComponent<UIManager>();
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver(int PlayerNumber)
     {
+        soundManager.PlaySound(2);
         Time.timeScale = 0f;
         UIManager.GameOver(PlayerNumber);
     }
