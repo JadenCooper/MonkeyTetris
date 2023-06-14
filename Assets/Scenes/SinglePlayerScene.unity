@@ -2697,6 +2697,18 @@ MonoBehaviour:
     tile: {fileID: 11400000, guid: 36abf45612a45204b8580f1d81ed802e, type: 2}
     cells:
     - {x: 0, y: 0, z: 0}
+  - pickUp: 1
+    tile: {fileID: 11400000, guid: 3f4427b08971eb34881cfc4c257e864d, type: 2}
+    cells:
+    - {x: 0, y: 0, z: 0}
+  - pickUp: 2
+    tile: {fileID: 11400000, guid: ab0112e20a31e3b469fe2161fe12a327, type: 2}
+    cells:
+    - {x: 0, y: 0, z: 0}
+  - pickUp: 3
+    tile: {fileID: 11400000, guid: 21d3f58f6a442da41946fbbaac3adee3, type: 2}
+    cells:
+    - {x: 0, y: 0, z: 0}
   BananaHolder: {fileID: 5317975421189223614, guid: a599d6c8f1d10414bbc20738b6c4eba8, type: 3}
   BananaList: []
   gameManager: {fileID: 1956594307}
@@ -2712,6 +2724,7 @@ MonoBehaviour:
   BananaAmount: 0
   PickedBananas: []
   BoardSize: 0
+  soundManager: {fileID: 0}
 --- !u!114 &1956594311
 MonoBehaviour:
   m_ObjectHideFlags: 0

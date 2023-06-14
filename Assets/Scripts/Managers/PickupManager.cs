@@ -132,6 +132,7 @@ public class PickupManager : MonoBehaviour
             {
                 case "Cyan":
                     // Line Clear
+                    gameBoard.tilemap.SetTile(tilePosition, null);
                     gameBoard.LineClear(gameBoard.Bounds.yMin);
                     return true;
 
@@ -163,7 +164,17 @@ public class PickupManager : MonoBehaviour
         }
         else
         {
-            return false;
+            switch (tileBase.name)
+            {
+                case "Cyan":
+                case "Orange":
+                case "Purple":
+                    return true;
+
+                default:
+                    // Normal Tile
+                    return false;
+            }
         }
     }
 
