@@ -138,7 +138,25 @@ public class PickupManager : MonoBehaviour
 
                 case "Orange":
                     // Explosion
-
+                    gameBoard.tilemap.SetTile(tilePosition, null);
+                    // Removes All Tiles Around Explosive Tile
+                    for (int row = -1; row < 2; row++)
+                    {
+                        for (int col = -1; col < 2; col++)
+                        {
+                            Vector3Int TileToRemove = new Vector3Int(tilePosition.x + col, tilePosition.y + row, 0);
+                            TileBase TileBaseToRemove = gameBoard.tilemap.GetTile(TileToRemove);
+                            if (TileBaseToRemove == null)
+                            {
+                                // Tile Empty
+                            }
+                            else if (TileBaseToRemove.name != "Red" ||  TileBaseToRemove.name != "Blue" || !TileBaseToRemove.name.Contains("Yellow"))
+                            {
+                                // If Not Player Tile Or Banana Remove Tile
+                                gameBoard.tilemap.SetTile(TileToRemove, null);
+                            }
+                        }
+                    }
                     return true;
 
                 case "Purple":
