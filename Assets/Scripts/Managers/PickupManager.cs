@@ -135,6 +135,7 @@ public class PickupManager : MonoBehaviour
                     gameBoard.tilemap.SetTile(tilePosition, null);
                     gameBoard.LineClear(gameBoard.Bounds.yMin);
                     soundManager.PlaySound(7);
+                    gameManager.PickupCollected("Slice");
                     return true;
 
                 case "Orange":
@@ -159,12 +160,14 @@ public class PickupManager : MonoBehaviour
                         }
                     }
                     soundManager.PlaySound(6);
+                    gameManager.PickupCollected("Explosion");
                     return true;
 
                 case "Purple":
                     // Junk
                     gameBoard.SpawnRandomObstacles();
                     soundManager.PlaySound(8);
+                    gameManager.PickupCollected("Junk");
                     return true;
 
                 default:
