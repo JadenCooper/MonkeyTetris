@@ -114,6 +114,14 @@ public class Board : MonoBehaviour
             }
             soundManager.PlaySound(0);
         };
+
+        for (int i = 0; i < activePiece.cells.Length; i++)
+        {
+            // Change Piece Tiles To The Set Version
+            Vector3Int tilePosition = activePiece.cells[i] + activePiece.position;
+            tilemap.SetTile(tilePosition, playerColors[PieceIndex + 2]);
+        }
+
         TetrominoData data = tetrominos[Random.Range(0, tetrominos.Length)];
         PieceIndex++;
         PieceIndex = activePiece.Wrap(PieceIndex, 0, ControlDataList.Count);

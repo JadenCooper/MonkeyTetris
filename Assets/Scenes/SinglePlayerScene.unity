@@ -2798,7 +2798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: playerColors.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: obstacleTiles.Array.size
@@ -2820,6 +2820,14 @@ PrefabInstance:
       propertyPath: playerColors.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 11d5f1fb5fc232b4c9f6e7da18c27ec4, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: playerColors.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c4b5d492aa91564ab73b28587c80080, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: playerColors.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 981d69bb8981b2343b2ae2369dd285c2, type: 2}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: obstacleTiles.Array.data[0]
       value: 
