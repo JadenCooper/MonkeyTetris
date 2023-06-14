@@ -16,7 +16,7 @@ public class PickupManager : MonoBehaviour
     public int BananaAmount;// Number of bananas to spawn and how many are on the board
     public List<GameObject> PickedBananas = new List<GameObject>();
     public int BoardSize = 0;
-
+    public SoundManager soundManager;
     public void StartGame()
     {
         switch (gameBoard.BoardSizeSetting)
@@ -35,17 +35,26 @@ public class PickupManager : MonoBehaviour
         }
         SpawnBananas();
         SpawnPickups();
+        StartCoroutine(RandomPickupSpawner());
     }
     private void Update()
     {
         if(PickedBananas.Count > 0){
             for(int i = 0; i < PickedBananas.Count; i++){
                 // Check if the position of the current PickedBanana is valid on the game board
-                if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false, false)){
-                    // Set the tile at the current PickedBanana's position on the tilemap
-                    gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
-                    // Remove the current PickedBanana from the PickedBananas list
+                if (PickedBananas[i] == null)
+                {
                     PickedBananas.RemoveAt(i);
+                }
+                else
+                {
+                    if (gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false, false))
+                    {
+                        // Set the tile at the current PickedBanana's position on the tilemap
+                        gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
+                        // Remove the current PickedBanana from the PickedBananas list
+                        PickedBananas.RemoveAt(i);
+                    }
                 }
             }
             
@@ -58,7 +67,7 @@ public class PickupManager : MonoBehaviour
         for (int i = 0; i < BananaAmount; i++)
         {
             BananaList.Add(Instantiate(BananaHolder));
-            BananaList[i].GetComponent<Banana>().Setup(this, SpawnPickup());
+            BananaList[i].GetComponent<Banana>().Setup(this, SpawnPickup(true));
         }
         gameManager.bananaAmount = BananaAmount;
     }
@@ -66,12 +75,22 @@ public class PickupManager : MonoBehaviour
     {
         // Spawn other pickups on the game board
         // Normal Pickups Will Go Here
+        int PickupAmount = Random.Range(1, 8);
+        for (int i = 0; i < PickupAmount; i++)
+        {
+            SpawnPickup(false);
+        }
     }
 
-    public Vector3Int SpawnPickup()
+    public Vector3Int SpawnPickup( bool Banana)
     {
         Pickup pickup = new();
-        PickupData data = pickups[Random.Range(0, pickups.Length)];
+        int pickedPickup = 0;
+        if (!Banana)
+        {
+            pickedPickup = Random.Range(1, pickups.Length);
+        }
+        PickupData data = pickups[pickedPickup];
         bool FreePosition = true;
         do
         {
@@ -118,8 +137,52 @@ public class PickupManager : MonoBehaviour
         }
         else
         {
-            // Normal Tile
-            return false;
+            switch(tileBase.name)
+            {
+                case "Cyan":
+                    // Line Clear
+                    gameBoard.tilemap.SetTile(tilePosition, null);
+                    gameBoard.LineClear(gameBoard.Bounds.yMin);
+                    soundManager.PlaySound(7);
+                    gameManager.PickupCollected("Slice");
+                    return true;
+
+                case "Orange":
+                    // Explosion
+                    gameBoard.tilemap.SetTile(tilePosition, null);
+                    // Removes All Tiles Around Explosive Tile
+                    for (int row = -1; row < 2; row++)
+                    {
+                        for (int col = -1; col < 2; col++)
+                        {
+                            Vector3Int TileToRemove = new Vector3Int(tilePosition.x + col, tilePosition.y + row, 0);
+                            TileBase TileBaseToRemove = gameBoard.tilemap.GetTile(TileToRemove);
+                            if (TileBaseToRemove == null)
+                            {
+                                // Tile Empty
+                            }
+                            else if (TileBaseToRemove.name != "Red" ||  TileBaseToRemove.name != "Blue" || !TileBaseToRemove.name.Contains("Yellow"))
+                            {
+                                // If Not Player Tile Or Banana Remove Tile
+                                gameBoard.tilemap.SetTile(TileToRemove, null);
+                            }
+                        }
+                    }
+                    soundManager.PlaySound(6);
+                    gameManager.PickupCollected("Explosion");
+                    return true;
+
+                case "Purple":
+                    // Junk
+                    gameBoard.SpawnRandomObstacles();
+                    soundManager.PlaySound(8);
+                    gameManager.PickupCollected("Junk");
+                    return true;
+
+                default:
+                    // Normal Tile
+                    return false;
+            }
         }
     }
 
@@ -134,7 +197,17 @@ public class PickupManager : MonoBehaviour
         }
         else
         {
-            return false;
+            switch (tileBase.name)
+            {
+                case "Cyan":
+                case "Orange":
+                case "Purple":
+                    return true;
+
+                default:
+                    // Normal Tile
+                    return false;
+            }
         }
     }
 
@@ -154,9 +227,17 @@ public class PickupManager : MonoBehaviour
     public void ChangeBananaTile(int RipenessIndex, Vector3Int Position)
     {
         // Change the tile of a banana based on its ripeness index
-        if (gameBoard.tilemap.GetTile(Position).name.Contains("Yellow"))
+        TileBase tile = gameBoard.tilemap.GetTile(Position);
+        if(tile == null)
         {
-            gameBoard.tilemap.SetTile(Position, BananaRipenessTiles[RipenessIndex]);
+
+        }
+        else
+        {
+            if (tile.name.Contains("Yellow"))
+            {
+                gameBoard.tilemap.SetTile(Position, BananaRipenessTiles[RipenessIndex]);
+            }
         }
     }
 
@@ -193,5 +274,25 @@ public class PickupManager : MonoBehaviour
         BananaList.Clear();
         SpawnPickups();
         SpawnBananas();
+    }
+
+    public IEnumerator RandomPickupSpawner()
+    {
+        float waitTime = Random.Range(3, 10);
+        yield return new WaitForSeconds(waitTime);
+        if (Random.Range(0, 2) == 1)
+        {
+            // Spawn Banana
+            Debug.Log("SpawnBanana");
+            BananaList.Add(Instantiate(BananaHolder));
+            BananaList[BananaList.Count - 1].GetComponent<Banana>().Setup(this, SpawnPickup(true));
+        }
+        else
+        {
+            // Spawn Normal Pickup
+            SpawnPickup(false);
+        }
+        Debug.Log("Spawn");
+        StartCoroutine(RandomPickupSpawner());
     }
 }

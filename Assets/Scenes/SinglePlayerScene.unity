@@ -2827,6 +2827,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3bf163db12fc2614d9764186cd0d8759, type: 3}
   - {fileID: 8300000, guid: 1170515eaa6f1d74094bd8f22d0d7fbd, type: 3}
   - {fileID: 8300000, guid: fa18bfafb60ce7540ab69d4b8ab5147a, type: 3}
+  - {fileID: 8300000, guid: 68ac5b67cecf92e46af54be434dbc57d, type: 3}
+  - {fileID: 8300000, guid: 7cfda23e7bbf7df4685741013f8fc4a9, type: 3}
+  - {fileID: 8300000, guid: 8b5115264fd23ed4dbe214aa667e4642, type: 3}
 --- !u!82 &1517164544
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3543,7 +3546,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -26.038483, z: -142.34314, w: -32.98195}
+  m_margin: {x: 0, y: -26.038483, z: -234.62567, w: -32.98195}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4074,6 +4077,18 @@ MonoBehaviour:
     tile: {fileID: 11400000, guid: 36abf45612a45204b8580f1d81ed802e, type: 2}
     cells:
     - {x: 0, y: 0, z: 0}
+  - pickUp: 1
+    tile: {fileID: 11400000, guid: 3f4427b08971eb34881cfc4c257e864d, type: 2}
+    cells:
+    - {x: 0, y: 0, z: 0}
+  - pickUp: 2
+    tile: {fileID: 11400000, guid: ab0112e20a31e3b469fe2161fe12a327, type: 2}
+    cells:
+    - {x: 0, y: 0, z: 0}
+  - pickUp: 3
+    tile: {fileID: 11400000, guid: 21d3f58f6a442da41946fbbaac3adee3, type: 2}
+    cells:
+    - {x: 0, y: 0, z: 0}
   BananaHolder: {fileID: 5317975421189223614, guid: a599d6c8f1d10414bbc20738b6c4eba8, type: 3}
   BananaList: []
   gameManager: {fileID: 1956594307}
@@ -4089,6 +4104,7 @@ MonoBehaviour:
   BananaAmount: 0
   PickedBananas: []
   BoardSize: 0
+  soundManager: {fileID: 1517164543}
 --- !u!114 &1956594311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4162,7 +4178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: playerColors.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: obstacleTiles.Array.size
@@ -4184,6 +4200,14 @@ PrefabInstance:
       propertyPath: playerColors.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 11d5f1fb5fc232b4c9f6e7da18c27ec4, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: playerColors.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c4b5d492aa91564ab73b28587c80080, type: 2}
+    - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
+      propertyPath: playerColors.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 981d69bb8981b2343b2ae2369dd285c2, type: 2}
     - target: {fileID: 1169076176437697654, guid: c7ad593dedbf8d943aa4f48606fbd64d, type: 3}
       propertyPath: obstacleTiles.Array.data[0]
       value: 

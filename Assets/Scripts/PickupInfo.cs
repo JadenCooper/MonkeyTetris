@@ -5,7 +5,10 @@ using UnityEngine.Tilemaps;
 
 public enum PickupType
 {
-    B
+    B, // Bannana
+    L, // Line Clear
+    E, //  Explosion
+    J, // Junk
 }
 [System.Serializable]
 public struct PickupData
