@@ -35,17 +35,26 @@ public class PickupManager : MonoBehaviour
         }
         SpawnBananas();
         SpawnPickups();
+        StartCoroutine(RandomPickupSpawner());
     }
     private void Update()
     {
         if(PickedBananas.Count > 0){
             for(int i = 0; i < PickedBananas.Count; i++){
                 // Check if the position of the current PickedBanana is valid on the game board
-                if(gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false, false)){
-                    // Set the tile at the current PickedBanana's position on the tilemap
-                    gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
-                    // Remove the current PickedBanana from the PickedBananas list
+                if (PickedBananas[i] == null)
+                {
                     PickedBananas.RemoveAt(i);
+                }
+                else
+                {
+                    if (gameBoard.IsValidPosition(pickups[0].cells, PickedBananas[i].GetComponent<Banana>().Position, false, false, false))
+                    {
+                        // Set the tile at the current PickedBanana's position on the tilemap
+                        gameBoard.tilemap.SetTile(PickedBananas[i].GetComponent<Banana>().Position, BananaRipenessTiles[PickedBananas[i].GetComponent<Banana>().RipenessIndex]);
+                        // Remove the current PickedBanana from the PickedBananas list
+                        PickedBananas.RemoveAt(i);
+                    }
                 }
             }
             
@@ -218,9 +227,17 @@ public class PickupManager : MonoBehaviour
     public void ChangeBananaTile(int RipenessIndex, Vector3Int Position)
     {
         // Change the tile of a banana based on its ripeness index
-        if (gameBoard.tilemap.GetTile(Position).name.Contains("Yellow"))
+        TileBase tile = gameBoard.tilemap.GetTile(Position);
+        if(tile == null)
         {
-            gameBoard.tilemap.SetTile(Position, BananaRipenessTiles[RipenessIndex]);
+
+        }
+        else
+        {
+            if (tile.name.Contains("Yellow"))
+            {
+                gameBoard.tilemap.SetTile(Position, BananaRipenessTiles[RipenessIndex]);
+            }
         }
     }
 
@@ -257,5 +274,25 @@ public class PickupManager : MonoBehaviour
         BananaList.Clear();
         SpawnPickups();
         SpawnBananas();
+    }
+
+    public IEnumerator RandomPickupSpawner()
+    {
+        float waitTime = Random.Range(3, 10);
+        yield return new WaitForSeconds(waitTime);
+        if (Random.Range(0, 2) == 1)
+        {
+            // Spawn Banana
+            Debug.Log("SpawnBanana");
+            BananaList.Add(Instantiate(BananaHolder));
+            BananaList[BananaList.Count - 1].GetComponent<Banana>().Setup(this, SpawnPickup(true));
+        }
+        else
+        {
+            // Spawn Normal Pickup
+            SpawnPickup(false);
+        }
+        Debug.Log("Spawn");
+        StartCoroutine(RandomPickupSpawner());
     }
 }
