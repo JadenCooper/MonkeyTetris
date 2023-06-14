@@ -132,7 +132,7 @@ public class PickupManager : MonoBehaviour
             {
                 case "Cyan":
                     // Line Clear
-
+                    gameBoard.LineClear(gameBoard.Bounds.yMin);
                     return true;
 
                 case "Orange":
@@ -141,7 +141,8 @@ public class PickupManager : MonoBehaviour
                     return true;
 
                 case "Purple":
-                    //
+                    // Junk
+                    gameBoard.SpawnRandomObstacles();
                     return true;
 
                 default:

@@ -218,7 +218,7 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    private void LineClear(int row)
+    public void LineClear(int row)
     {
         int rowsAffected = Random.Range(1, 4); // Generate a random number between 1 and 3 (inclusive)
         //deletes the amount of rows from the random number
@@ -248,7 +248,7 @@ public class Board : MonoBehaviour
 
 
 
-    private void SpawnRandomObstacles()
+    public void SpawnRandomObstacles()
     {
         int[] heightMap = new int[boardSize.x]; //Declare empty heightmap (Array of Ints)
 
