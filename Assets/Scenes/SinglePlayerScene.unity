@@ -1735,6 +1735,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3bf163db12fc2614d9764186cd0d8759, type: 3}
   - {fileID: 8300000, guid: 1170515eaa6f1d74094bd8f22d0d7fbd, type: 3}
   - {fileID: 8300000, guid: fa18bfafb60ce7540ab69d4b8ab5147a, type: 3}
+  - {fileID: 8300000, guid: 68ac5b67cecf92e46af54be434dbc57d, type: 3}
+  - {fileID: 8300000, guid: 7cfda23e7bbf7df4685741013f8fc4a9, type: 3}
+  - {fileID: 8300000, guid: 8b5115264fd23ed4dbe214aa667e4642, type: 3}
 --- !u!82 &1517164544
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2724,7 +2727,7 @@ MonoBehaviour:
   BananaAmount: 0
   PickedBananas: []
   BoardSize: 0
-  soundManager: {fileID: 0}
+  soundManager: {fileID: 1517164543}
 --- !u!114 &1956594311
 MonoBehaviour:
   m_ObjectHideFlags: 0
