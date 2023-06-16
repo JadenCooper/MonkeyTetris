@@ -43,12 +43,14 @@ public class GameManager : MonoBehaviour
             //Player One
             CurrentScore.x += ScoreChange;
             Playerscore = (int)CurrentScore.x;
+            PlayerIndex = 1;
         }
         else
         {
             //Player Two
             CurrentScore.y += ScoreChange;
             Playerscore = (int)CurrentScore.y;
+            PlayerIndex = 2;
         }
 
         UIManager.SetScores(CurrentScore);
