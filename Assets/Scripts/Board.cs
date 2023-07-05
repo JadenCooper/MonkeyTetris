@@ -272,28 +272,12 @@ public class Board : MonoBehaviour
     {
         int[] heightMap = new int[boardSize.x]; //Declare empty heightmap (Array of Ints)
 
-        int currVal = Random.Range(0,4); //Starting elevation
+        float startX = Random.Range(0f,1f); //Starting elevation
 
-        heightMap[0] = (currVal);
-
-        for (int i = 1; i < boardSize.x; i++) //Generate Heightmap based on boardwidth
+        for (int i = 0; i < boardSize.x; i++) //Generate Heightmap based on boardwidth
         {
-            int rng = Random.Range(0,4); //Odds for changing elevatino on each step.
-            //25% Increase, 25% Decrease, 50% Stay Same
-            switch(rng)
-            {
-                case 0:
-                    currVal++;
-                    break;
-                case 1:
-                    currVal--;
-                    break;
-                default:
-                    break;
-            }
-            currVal = Mathf.Clamp(currVal, 0, (boardSize.y / 3)); //Clamp heightmap val between zero and a third up the board.
-            heightMap[i] = (currVal); //Commit the value to heightmap.
-        }
+            heightMap[i] = (int)(Mathf.PerlinNoise(startX, i * 0.05f) * 10f); //Generate height value using Perlin noise, with a randomized X component. Amplitude of 10 and Frequency of 0.05
+        }
 
         for (int i = 0; i < boardSize.x; i++) //For the width of our board...
         {
